@@ -2,19 +2,19 @@ const pool = require('../../../config/database');
 
 class AlunoRepository {
   async findAll() {
-    const [rows] = await pool.execute('SELECT * FROM aluno ORDER BY nome ASC');
-    return rows;
+    const result = await pool.query('SELECT * FROM aluno ORDER BY nome ASC');
+    return result.rows;
   }
 
   async findById(id) {
-    const [rows] = await pool.execute('SELECT * FROM aluno WHERE id = ?', [id]);
-    return rows[0] || null;
+    const result = await pool.query('SELECT * FROM aluno WHERE id_aluno = $1', [id]);
+    return result.rows[0] || null;
   }
 
   async create(aluno) {
-    const [result] = await pool.execute(
+    const result = await pool.query(
       `INSERT INTO aluno (nome, cpf, email, telefone, data_nascimento, altura, peso, objetivo, observacoes)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id_aluno`,
       [
         aluno.nome,
         aluno.cpf,
@@ -27,7 +27,7 @@ class AlunoRepository {
         aluno.observacoes,
       ]
     );
-    return result.insertId;
+    return result.rows[0].id_aluno;
   }
 }
 

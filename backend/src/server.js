@@ -2,15 +2,14 @@ require('dotenv').config();
 const app = require('./app');
 const pool = require('./config/database');
 
-const PORT = process.env.SERVER_PORT || 3000;
+const PORT = process.env.SERVER_PORT || 10000;
 
 async function testConnection() {
   try {
-    const connection = await pool.getConnection();
-    console.log('✅ Conectado ao MySQL com sucesso!');
-    connection.release();
+    const result = await pool.query('SELECT NOW()');
+    console.log('✅ Conectado ao PostgreSQL com sucesso!');
   } catch (error) {
-    console.error('❌ Erro ao conectar no MySQL:', error.message);
+    console.error('❌ Erro ao conectar no PostgreSQL:', error.message);
     process.exit(1);
   }
 }

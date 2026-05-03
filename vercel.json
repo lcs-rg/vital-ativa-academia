@@ -1,0 +1,9 @@
+{
+  "框架": null,
+  "buildCommand": "echo No build",
+  "outputDirectory": "frontend",
+  "installCommand": "echo No install",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/frontend/$1" }
+  ]
+}
