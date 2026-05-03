@@ -1,6 +1,7 @@
 require('dotenv').config();
 const app = require('./app');
 const pool = require('./config/database');
+const { createTables } = require('./initDb');
 
 const PORT = process.env.SERVER_PORT || 10000;
 
@@ -16,6 +17,7 @@ async function testConnection() {
 
 async function startServer() {
   await testConnection();
+  await createTables();
   app.listen(PORT, () => {
     console.log(`🚀 Servidor rodando na porta ${PORT}`);
   });
