@@ -1,4 +1,4 @@
-const API_BASE_URL = '/api';
+const API_BASE_URL = window.location.hostname === 'localhost' ? '/api' : 'https://vital-ativa-backend.onrender.com/api';
 
 class ApiClient {
     constructor(baseUrl = API_BASE_URL) {

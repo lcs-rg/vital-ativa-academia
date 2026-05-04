@@ -1,27 +1,36 @@
-const pool = require('../../../config/database');
+const supabase = require('../../../config/database');
 
 class MatriculaRepository {
   async findAll() {
-    const result = await pool.query('SELECT * FROM matricula ORDER BY data_inicio DESC');
-    return result.rows;
+    const { data, error } = await supabase.from('matricula').select('*').order('data_inicio', { ascending: false });
+    if (error) throw error;
+    return data;
   }
 
   async findById(id) {
-    const result = await pool.query('SELECT * FROM matricula WHERE id_matricula = $1', [id]);
-    return result.rows[0] || null;
+    const { data, error } = await supabase.from('matricula').select('*').eq('id_matricula', id);
+    if (error) throw error;
+    return data[0] || null;
   }
 
   async findByAluno(alunoId) {
-    const result = await pool.query('SELECT * FROM matricula WHERE aluno_id_aluno = $1', [alunoId]);
-    return result.rows;
+    const { data, error } = await supabase.from('matricula').select('*').eq('aluno_id_aluno', alunoId);
+    if (error) throw error;
+    return data;
   }
 
   async create(matricula) {
-    const result = await pool.query(
-      'INSERT INTO matricula (data_inicio, data_fim, status, aluno_id_aluno, plano_id_plano) VALUES ($1, $2, $3, $4, $5) RETURNING id_matricula',
-      [matricula.data_inicio, matricula.data_fim, matricula.status, matricula.aluno_id_aluno, matricula.plano_id_plano]
-    );
-    return result.rows[0].id_matricula;
+    const { data, error } = await supabase.from('matricula').insert([
+      {
+        data_inicio: matricula.data_inicio,
+        data_fim: matricula.data_fim,
+        status: matricula.status,
+        aluno_id_aluno: matricula.aluno_id_aluno,
+        plano_id_plano: matricula.plano_id_plano,
+      },
+    ]).select();
+    if (error) throw error;
+    return data[0].id_matricula;
   }
 }
 

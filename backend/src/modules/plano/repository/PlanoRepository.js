@@ -1,22 +1,29 @@
-const pool = require('../../../config/database');
+const supabase = require('../../../config/database');
 
 class PlanoRepository {
   async findAll() {
-    const result = await pool.query('SELECT * FROM plano ORDER BY nome ASC');
-    return result.rows;
+    const { data, error } = await supabase.from('plano').select('*').order('nome', { ascending: true });
+    if (error) throw error;
+    return data;
   }
 
   async findById(id) {
-    const result = await pool.query('SELECT * FROM plano WHERE id_plano = $1', [id]);
-    return result.rows[0] || null;
+    const { data, error } = await supabase.from('plano').select('*').eq('id_plano', id);
+    if (error) throw error;
+    return data[0] || null;
   }
 
   async create(plano) {
-    const result = await pool.query(
-      'INSERT INTO plano (nome, valor, duracao_meses, descricao) VALUES ($1, $2, $3, $4) RETURNING id_plano',
-      [plano.nome, plano.valor, plano.duracao_meses, plano.descricao]
-    );
-    return result.rows[0].id_plano;
+    const { data, error } = await supabase.from('plano').insert([
+      {
+        nome: plano.nome,
+        valor: plano.valor,
+        duracao_meses: plano.duracao_meses,
+        descricao: plano.descricao,
+      },
+    ]).select();
+    if (error) throw error;
+    return data[0].id_plano;
   }
 }
 
