@@ -5,7 +5,7 @@ const supabase = require('./config/database');
 const PORT = process.env.SERVER_PORT || 10000;
 
 async function testConnection() {
-  const { data, error } = await supabase.from('aluno').select('id').limit(1);
+  const { data, error } = await supabase.from('aluno').select('id_aluno').limit(1);
   if (error) throw error;
   console.log('✅ Conectado ao Supabase!');
 }
