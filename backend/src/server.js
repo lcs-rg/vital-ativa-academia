@@ -17,4 +17,7 @@ async function startServer() {
   });
 }
 
-startServer();
+startServer().catch(err => {
+  console.error('❌ Erro ao iniciar:', err.message);
+  process.exit(1);
+});
