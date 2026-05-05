@@ -1,22 +1,24 @@
-const pool = require('../../../config/database');
+const supabase = require('../../../config/database');
 
 class TreinoExercicioRepository {
   async findAll() {
-    const result = await pool.query('SELECT * FROM treino_exercicio');
-    return result.rows;
+    const { data, error } = await supabase.from('treino_exercicio').select('*');
+    if (error) throw error;
+    return data;
   }
 
   async findByTreino(treinoId) {
-    const result = await pool.query('SELECT * FROM treino_exercicio WHERE treino_id_treino = $1', [treinoId]);
-    return result.rows;
+    const { data, error } = await supabase.from('treino_exercicio').select('*').eq('treino_id_treino', treinoId);
+    if (error) throw error;
+    return data;
   }
 
   async create(data) {
-    const result = await pool.query(
-      'INSERT INTO treino_exercicio (series, repeticoes, treino_id_treino, exercicio_id_exercicio) VALUES ($1, $2, $3, $4) RETURNING (series, repeticoes)',
-      [data.series, data.repeticoes, data.treino_id_treino, data.exercicio_id_exercicio]
-    );
-    return result.rowCount;
+    const { error } = await supabase.from('treino_exercicio').insert([
+      { series: data.series, repeticoes: data.repeticoes, treino_id_treino: data.treino_id_treino, exercicio_id_exercicio: data.exercicio_id_exercicio },
+    ]);
+    if (error) throw error;
+    return 1;
   }
 }
 

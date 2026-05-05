@@ -1,25 +1,19 @@
 require('dotenv').config();
 const app = require('./app');
-const pool = require('./config/database');
-const { createTables } = require('./initDb');
+const supabase = require('./config/database');
 
 const PORT = process.env.SERVER_PORT || 10000;
 
 async function testConnection() {
-  try {
-    const result = await pool.query('SELECT NOW()');
-    console.log('✅ Conectado ao PostgreSQL com sucesso!');
-  } catch (error) {
-    console.error('❌ Erro ao conectar no PostgreSQL:', error.message);
-    process.exit(1);
-  }
+  const { data, error } = await supabase.from('aluno').select('id').limit(1);
+  if (error) throw error;
+  console.log('✅ Conectado ao Supabase!');
 }
 
 async function startServer() {
   await testConnection();
-  await createTables();
   app.listen(PORT, () => {
-    console.log(`🚀 Servidor rodando na porta ${PORT}`);
+    console.log(`🚀 Servidor na porta ${PORT}`);
   });
 }
 

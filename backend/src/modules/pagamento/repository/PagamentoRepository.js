@@ -1,27 +1,30 @@
-const pool = require('../../../config/database');
+const supabase = require('../../../config/database');
 
 class PagamentoRepository {
   async findAll() {
-    const result = await pool.query('SELECT * FROM pagamento ORDER BY data_vencimento DESC');
-    return result.rows;
+    const { data, error } = await supabase.from('pagamento').select('*').order('data_vencimento', { ascending: false });
+    if (error) throw error;
+    return data;
   }
 
   async findById(id) {
-    const result = await pool.query('SELECT * FROM pagamento WHERE id_pagamentos = $1', [id]);
-    return result.rows[0] || null;
+    const { data, error } = await supabase.from('pagamento').select('*').eq('id_pagamentos', id);
+    if (error) throw error;
+    return data[0] || null;
   }
 
   async findByMatricula(matriculaId) {
-    const result = await pool.query('SELECT * FROM pagamento WHERE matricula_id_matricula = $1', [matriculaId]);
-    return result.rows;
+    const { data, error } = await supabase.from('pagamento').select('*').eq('matricula_id_matricula', matriculaId);
+    if (error) throw error;
+    return data;
   }
 
   async create(pagamento) {
-    const result = await pool.query(
-      'INSERT INTO pagamento (valor, data_vencimento, data_pagamento, status, tipo_pagamento, matricula_id_matricula) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id_pagamentos',
-      [pagamento.valor, pagamento.data_vencimento, pagamento.data_pagamento, pagamento.status, pagamento.tipo_pagamento, pagamento.matricula_id_matricula]
-    );
-    return result.rows[0].id_pagamentos;
+    const { data, error } = await supabase.from('pagamento').insert([
+      { valor: pagamento.valor, data_vencimento: pagamento.data_vencimento, data_pagamento: pagamento.data_pagamento, status: pagamento.status, tipo_pagamento: pagamento.tipo_pagamento, matricula_id_matricula: pagamento.matricula_id_matricula },
+    ]).select();
+    if (error) throw error;
+    return data[0].id_pagamentos;
   }
 }
 

@@ -1,27 +1,30 @@
-const pool = require('../../../config/database');
+const supabase = require('../../../config/database');
 
 class TreinoRepository {
   async findAll() {
-    const result = await pool.query('SELECT * FROM treino ORDER BY data_criacao DESC');
-    return result.rows;
+    const { data, error } = await supabase.from('treino').select('*').order('data_criacao', { ascending: false });
+    if (error) throw error;
+    return data;
   }
 
   async findById(id) {
-    const result = await pool.query('SELECT * FROM treino WHERE id_treino = $1', [id]);
-    return result.rows[0] || null;
+    const { data, error } = await supabase.from('treino').select('*').eq('id_treino', id);
+    if (error) throw error;
+    return data[0] || null;
   }
 
   async findByAluno(alunoId) {
-    const result = await pool.query('SELECT * FROM treino WHERE aluno_id_aluno = $1', [alunoId]);
-    return result.rows;
+    const { data, error } = await supabase.from('treino').select('*').eq('aluno_id_aluno', alunoId);
+    if (error) throw error;
+    return data;
   }
 
   async create(treino) {
-    const result = await pool.query(
-      'INSERT INTO treino (descricao, data_criacao, instrutor_id_instrutor, aluno_id_aluno) VALUES ($1, $2, $3, $4) RETURNING id_treino',
-      [treino.descricao, treino.data_criacao, treino.instrutor_id_instrutor, treino.aluno_id_aluno]
-    );
-    return result.rows[0].id_treino;
+    const { data, error } = await supabase.from('treino').insert([
+      { descricao: treino.descricao, data_criacao: treino.data_criacao, instrutor_id_instrutor: treino.instrutor_id_instrutor, aluno_id_aluno: treino.aluno_id_aluno },
+    ]).select();
+    if (error) throw error;
+    return data[0].id_treino;
   }
 }
 

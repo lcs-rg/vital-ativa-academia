@@ -1,22 +1,24 @@
-const pool = require('../../../config/database');
+const supabase = require('../../../config/database');
 
 class PlanoModalidadeRepository {
   async findAll() {
-    const result = await pool.query('SELECT * FROM plano_modalidade');
-    return result.rows;
+    const { data, error } = await supabase.from('plano_modalidade').select('*');
+    if (error) throw error;
+    return data;
   }
 
   async findByPlano(planoId) {
-    const result = await pool.query('SELECT * FROM plano_modalidade WHERE plano_id_plano = $1', [planoId]);
-    return result.rows;
+    const { data, error } = await supabase.from('plano_modalidade').select('*').eq('plano_id_plano', planoId);
+    if (error) throw error;
+    return data;
   }
 
   async create(data) {
-    const result = await pool.query(
-      'INSERT INTO plano_modalidade (plano_id_plano, modalidade_id_modalidade) VALUES ($1, $2) RETURNING (plano_id_plano, modalidade_id_modalidade)',
-      [data.plano_id_plano, data.modalidade_id_modalidade]
-    );
-    return result.rowCount;
+    const { error } = await supabase.from('plano_modalidade').insert([
+      { plano_id_plano: data.plano_id_plano, modalidade_id_modalidade: data.modalidade_id_modalidade },
+    ]);
+    if (error) throw error;
+    return 1;
   }
 }
 

@@ -1,27 +1,30 @@
-const pool = require('../../../config/database');
+const supabase = require('../../../config/database');
 
 class ExercicioRepository {
   async findAll() {
-    const result = await pool.query('SELECT * FROM exercicio ORDER BY nome ASC');
-    return result.rows;
+    const { data, error } = await supabase.from('exercicio').select('*').order('nome', { ascending: true });
+    if (error) throw error;
+    return data;
   }
 
   async findById(id) {
-    const result = await pool.query('SELECT * FROM exercicio WHERE id_exercicio = $1', [id]);
-    return result.rows[0] || null;
+    const { data, error } = await supabase.from('exercicio').select('*').eq('id_exercicio', id);
+    if (error) throw error;
+    return data[0] || null;
   }
 
   async create(exercicio) {
-    const result = await pool.query(
-      'INSERT INTO exercicio (nome, descricao) VALUES ($1, $2) RETURNING id_exercicio',
-      [exercicio.nome, exercicio.descricao]
-    );
-    return result.rows[0].id_exercicio;
+    const { data, error } = await supabase.from('exercicio').insert([
+      { nome: exercicio.nome, descricao: exercicio.descricao },
+    ]).select();
+    if (error) throw error;
+    return data[0].id_exercicio;
   }
 
   async remove(id) {
-    const result = await pool.query('DELETE FROM exercicio WHERE id_exercicio = $1', [id]);
-    return result.rowCount;
+    const { error } = await supabase.from('exercicio').delete().eq('id_exercicio', id);
+    if (error) throw error;
+    return 1;
   }
 }
 

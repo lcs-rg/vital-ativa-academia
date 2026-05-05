@@ -1,27 +1,30 @@
-const pool = require('../../../config/database');
+const supabase = require('../../../config/database');
 
 class AvaliacaoFisicaRepository {
   async findAll() {
-    const result = await pool.query('SELECT * FROM avaliacao_fisica ORDER BY data_avaliacao DESC');
-    return result.rows;
+    const { data, error } = await supabase.from('avaliacao_fisica').select('*').order('data_avaliacao', { ascending: false });
+    if (error) throw error;
+    return data;
   }
 
   async findById(id) {
-    const result = await pool.query('SELECT * FROM avaliacao_fisica WHERE id_avaliacao = $1', [id]);
-    return result.rows[0] || null;
+    const { data, error } = await supabase.from('avaliacao_fisica').select('*').eq('id_avaliacao', id);
+    if (error) throw error;
+    return data[0] || null;
   }
 
   async findByAluno(alunoId) {
-    const result = await pool.query('SELECT * FROM avaliacao_fisica WHERE aluno_id_aluno = $1 ORDER BY data_avaliacao DESC', [alunoId]);
-    return result.rows;
+    const { data, error } = await supabase.from('avaliacao_fisica').select('*').eq('aluno_id_aluno', alunoId).order('data_avaliacao', { ascending: false });
+    if (error) throw error;
+    return data;
   }
 
   async create(avaliacao) {
-    const result = await pool.query(
-      'INSERT INTO avaliacao_fisica (data_avaliacao, peso, altura, observacoes, aluno_id_aluno) VALUES ($1, $2, $3, $4, $5) RETURNING id_avaliacao',
-      [avaliacao.data_avaliacao, avaliacao.peso, avaliacao.altura, avaliacao.observacoes, avaliacao.aluno_id_aluno]
-    );
-    return result.rows[0].id_avaliacao;
+    const { data, error } = await supabase.from('avaliacao_fisica').insert([
+      { data_avaliacao: avaliacao.data_avaliacao, peso: avaliacao.peso, altura: avaliacao.altura, observacoes: avaliacao.observacoes, aluno_id_aluno: avaliacao.aluno_id_aluno },
+    ]).select();
+    if (error) throw error;
+    return data[0].id_avaliacao;
   }
 }
 
