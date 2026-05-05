@@ -1,11 +1,17 @@
 const express = require('express');
 const cors = require('cors');
 const routes = require('./routes');
+const supabase = require('./config/database');
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.get('/debug', async (req, res) => {
+  const { data, error } = await supabase.from('aluno').select('*');
+  res.json({ data, error });
+});
 
 app.use('/api', routes);
 
