@@ -1,8 +1,11 @@
 const service = require('../service/AlunoService');
+const supabase = require('../../../config/database');
 
 class AlunoController {
   async getAll(req, res) {
     try {
+      const { data, error } = await supabase.from('aluno').select('*');
+      console.log('Debug - data:', data, 'error:', error);
       const alunos = await service.getAll();
       console.log('Alunos found:', alunos?.length);
       res.status(200).json(alunos);

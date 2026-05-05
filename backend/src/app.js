@@ -10,7 +10,7 @@ app.use(express.json());
 
 app.get('/debug', async (req, res) => {
   const { data, error } = await supabase.from('aluno').select('*');
-  res.json({ data, error });
+  res.json({ data, error, count: data?.length });
 });
 
 app.use('/api', routes);
