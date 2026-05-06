@@ -1,9 +1,9 @@
 services:
   - type: web
     name: vital-ativa-backend
-    runtime: java
+    env: java
+    plan: free
     region: oregon
     buildCommand: bash build.sh
     startCommand: java -jar backend/target/vital-ativa-backend-1.0.0.jar
     autoDeploy: true
-    repo: https://github.com/lcs-rg/vital-ativa-academia
