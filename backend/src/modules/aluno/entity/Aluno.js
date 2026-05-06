@@ -6,10 +6,6 @@ class Aluno {
     this.email = email;
     this.telefone = telefone;
     this.data_nascimento = data_nascimento;
-    this.altura = altura;
-    this.peso = peso;
-    this.objetivo = objetivo;
-    this.observacoes = observacoes;
   }
 
   validate() {
