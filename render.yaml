@@ -3,6 +3,7 @@ services:
     name: vital-ativa-backend
     env: node
     region: oregon
-    buildCommand: cd backend && npm install
-    startCommand: cd backend && node src/server.js
+    rootDirectory: backend
+    buildCommand: npm install
+    startCommand: npm start
     autoDeploy: true
