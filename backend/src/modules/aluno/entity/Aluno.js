@@ -1,6 +1,6 @@
 class Aluno {
-  constructor({ id, nome, cpf, email, telefone, data_nascimento, altura, peso, objetivo, observacoes }) {
-    this.id = id;
+  constructor({ id_aluno, nome, cpf, email, telefone, data_nascimento }) {
+    this.id_aluno = id_aluno;
     this.nome = nome;
     this.cpf = cpf;
     this.email = email;

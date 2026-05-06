@@ -20,7 +20,7 @@ class AlunoRepository {
         cpf: aluno.cpf,
         email: aluno.email,
         telefone: aluno.telefone,
-        data_nascimento: aluno.data_nascimento
+        data_nascimento: aluno.data_nascimento,
       },
     ]).select();
     if (error) throw error;
