@@ -9,6 +9,10 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/debug', async (req, res) => {
+  res.json({ status: 'ok', message: 'Servidor funcionando' });
+});
+
+app.get('/debug/db', async (req, res) => {
   const { data, error } = await supabase.from('aluno').select('*');
   res.json({ count: data?.length, data, error });
 });
