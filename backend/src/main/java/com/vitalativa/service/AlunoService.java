@@ -4,7 +4,6 @@ import com.vitalativa.entity.Aluno;
 import com.vitalativa.repository.AlunoRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AlunoService {
@@ -19,8 +18,8 @@ public class AlunoService {
         return repository.findAllByOrderByNomeAsc();
     }
     
-    public Optional<Aluno> findById(Integer id) {
-        return repository.findById(id);
+    public Aluno findById(Integer id) {
+        return repository.findById(id).orElse(null);
     }
     
     public Aluno save(Aluno aluno) {
