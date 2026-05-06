@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const supabase = require('../../config/database');
+const supabase = require('../config/database');
 
 router.get('/', async (req, res) => {
   const { data, error } = await supabase.from('aluno').select('*').order('nome');
