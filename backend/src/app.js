@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const routes = require('./routes');
+const supabase = require('./config/database');
 
 const app = express();
 
@@ -18,7 +19,5 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Erro interno do servidor' });
 });
-
-const supabase = require('./config/database');
 
 module.exports = app;
