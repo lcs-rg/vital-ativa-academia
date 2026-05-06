@@ -8,6 +8,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.json({ message: 'Vital Ativa API', status: 'running' });
+});
+
 app.get('/debug', async (req, res) => {
   res.json({ status: 'ok', message: 'Servidor funcionando' });
 });
