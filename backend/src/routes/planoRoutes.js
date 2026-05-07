@@ -12,6 +12,7 @@ const tables = {
   pagamentos: 'pagamento',
   aulas: 'aula',
   treinos: 'treino',
+  alunos: 'aluno',
   'aluno-aula': 'aluno_aula',
   'treino-exercicio': 'treino_exercicio',
   'plano-modalidade': 'plano_modalidade'
@@ -27,6 +28,7 @@ const idFields = {
   pagamentos: 'id_pagamento',
   aulas: 'id_aula',
   treinos: 'id_treino',
+  alunos: 'id_aluno',
   'aluno-aula': 'aluno_id_aluno',
   'treino-exercicio': 'treino_id_treino',
   'plano-modalidade': 'plano_id_plano'

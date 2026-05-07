@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-const alunoRoutes = require('./alunoRoutes');
 const planoRoutes = require('./planoRoutes');
 const instrutorRoutes = require('./instrutorRoutes');
 const modalidadeRoutes = require('./modalidadeRoutes');
@@ -15,7 +14,7 @@ const alunoAulaRoutes = require('./alunoAulaRoutes');
 const treinoExercicioRoutes = require('./treinoExercicioRoutes');
 const planoModalidadeRoutes = require('./planoModalidadeRoutes');
 
-router.use('/alunos', alunoRoutes);
+router.use('/alunos', planoRoutes);
 router.use('/planos', planoRoutes);
 router.use('/instrutores', instrutorRoutes);
 router.use('/modalidades', modalidadeRoutes);
