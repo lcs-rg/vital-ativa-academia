@@ -4,14 +4,24 @@
 ```
 https://vital-ativa-academia.onrender.com/api
 ```
-**Nota:** Em desenvolvimento local, use `http://localhost:10000/api`
+
+> **Local:** `http://localhost:10000/api`
+
+---
+
+## Arquitetura
+
+```
+Request → Router → Controller → Service → Repository → Supabase
+```
+
+A API segue o padrão **Controller → Service → Repository** (inspired by Spring Boot).
 
 ---
 
 ## Endpoints
 
 ### 1. Alunos
-Gerenciamento de alunos da academia.
 
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
@@ -21,9 +31,18 @@ Gerenciamento de alunos da academia.
 | PUT | `/alunos/:id` | Atualizar aluno |
 | DELETE | `/alunos/:id` | Excluir aluno |
 
-#### Exemplo - Listar Alunos
+**Campos:**
+| Campo | Tipo | Obrigatório |
+|-------|------|-------------|
+| nome | string | Sim |
+| cpf | string | Sim |
+| email | string | Sim |
+| telefone | string | Não |
+| data_nascimento | date | Não |
+
+**Exemplo - Listar:**
 ```bash
-GET /api/alunos
+curl -X GET http://localhost:10000/api/alunos
 ```
 
 **Response:**
@@ -31,72 +50,40 @@ GET /api/alunos
 [
   {
     "id_aluno": 1,
-    "nome": "João Silva",
-    "cpf": "123.456.789-00",
-    "email": "joao@email.com",
-    "telefone": "(11) 99999-9999",
-    "data_nascimento": "1990-01-15"
+    "nome": "Lucas Silva",
+    "cpf": "12345678901",
+    "telefone": "86999990001",
+    "email": "lucas@email.com",
+    "data_nascimento": "2002-05-10"
   }
 ]
 ```
 
-#### Campos
-| Campo | Tipo | Obrigatório | Descrição |
-|-------|------|-------------|-----------|
-| nome | string | Sim | Nome do aluno |
-| cpf | string | Sim | CPF do aluno |
-| email | string | Sim | Email do aluno |
-| telefone | string | Não | Telefone de contato |
-| data_nascimento | date | Não | Data de nascimento |
-
-#### Exemplo - Criar Aluno
+**Exemplo - Criar:**
 ```bash
-POST /api/alunos
-Content-Type: application/json
-
-{
-  "nome": "João Silva",
-  "cpf": "123.456.789-00",
-  "email": "joao@email.com",
-  "telefone": "(11) 99999-9999",
-  "data_nascimento": "1990-01-15"
-}
+curl -X POST http://localhost:10000/api/alunos \
+  -H "Content-Type: application/json" \
+  -d '{"nome":"João Silva","cpf":"12345678900","email":"joao@email.com","telefone":"11999999999"}'
 ```
 
-**Response (201):**
-```json
-{
-  "id_aluno": 1,
-  "nome": "João Silva",
-  "cpf": "123.456.789-00",
-  "email": "joao@email.com",
-  "telefone": "(11) 99999-9999",
-  "data_nascimento": "1990-01-15"
-}
-```
+**Response (201):** Retorna o aluno criado com `id_aluno`.
 
-#### Exemplo - Atualizar Aluno
+**Exemplo - Atualizar:**
 ```bash
-PUT /api/alunos/1
-Content-Type: application/json
-
-{
-  "nome": "João Silva Santos",
-  "telefone": "(11) 88888-8888"
-}
+curl -X PUT http://localhost:10000/api/alunos/1 \
+  -H "Content-Type: application/json" \
+  -d '{"nome":"João Silva Santos"}'
 ```
 
-#### Exemplo - Excluir Aluno
+**Exemplo - Deletar:**
 ```bash
-DELETE /api/alunos/1
+curl -X DELETE http://localhost:10000/api/alunos/1
 ```
-
-**Response (204):** Sem conteúdo
+> **Status (204):** Sem conteúdo
 
 ---
 
 ### 2. Planos
-Gerenciamento de planos de matrícula.
 
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
@@ -106,31 +93,35 @@ Gerenciamento de planos de matrícula.
 | PUT | `/planos/:id` | Atualizar plano |
 | DELETE | `/planos/:id` | Excluir plano |
 
-#### Campos
-| Campo | Tipo | Obrigatório | Descrição |
-|-------|------|-------------|-----------|
-| nome | string | Sim | Nome do plano |
-| valor | number | Sim | Valor em reais |
-| duracao_meses | number | Sim | Duração em meses |
-| descricao | string | Não | Descrição do plano |
+**Campos:**
+| Campo | Tipo | Obrigatório |
+|-------|------|-------------|
+| nome | string | Sim |
+| valor | number | Sim |
+| duracao_meses | number | Sim |
+| descricao | string | Não |
 
-#### Exemplo - Criar Plano
+**Exemplo - Listar:**
 ```bash
-POST /api/planos
-Content-Type: application/json
+curl -X GET http://localhost:10000/api/planos
+```
 
-{
-  "nome": "Premium",
-  "valor": 150.00,
-  "duracao_meses": 12,
-  "descricao": "Plano completo com acesso a todas as aulas"
-}
+**Response:**
+```json
+[
+  {
+    "id_plano": 1,
+    "nome": "Mensal",
+    "valor": 99.9,
+    "duracao_meses": 1,
+    "descricao": "Plano mensal"
+  }
+]
 ```
 
 ---
 
 ### 3. Instrutores
-Gerenciamento de instrutores.
 
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
@@ -140,17 +131,16 @@ Gerenciamento de instrutores.
 | PUT | `/instrutores/:id` | Atualizar instrutor |
 | DELETE | `/instrutores/:id` | Excluir instrutor |
 
-#### Campos
-| Campo | Tipo | Obrigatório | Descrição |
-|-------|------|-------------|-----------|
-| nome | string | Sim | Nome do instrutor |
-| telefone | string | Não | Telefone de contato |
-| email | string | Sim | Email do instrutor |
+**Campos:**
+| Campo | Tipo | Obrigatório |
+|-------|------|-------------|
+| nome | string | Sim |
+| telefone | string | Não |
+| email | string | Sim |
 
 ---
 
 ### 4. Modalidades
-Gerenciamento de modalidades (tipos de aula).
 
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
@@ -160,10 +150,16 @@ Gerenciamento de modalidades (tipos de aula).
 | PUT | `/modalidades/:id` | Atualizar modalidade |
 | DELETE | `/modalidades/:id` | Excluir modalidade |
 
+**Campos:**
+| Campo | Tipo | Obrigatório |
+|-------|------|-------------|
+| nome | string | Sim |
+| descricao | string | Não |
+| exige_agendamento | boolean | Não |
+
 ---
 
 ### 5. Exercícios
-Gerenciamento de exercícios.
 
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
@@ -173,91 +169,17 @@ Gerenciamento de exercícios.
 | PUT | `/exercicios/:id` | Atualizar exercício |
 | DELETE | `/exercicios/:id` | Excluir exercício |
 
----
-
-### 6. Matrículas
-Gerenciamento de matrículas de alunos.
-
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| GET | `/matriculas` | Listar todas as matrículas |
-| GET | `/matriculas/:id` | Buscar matrícula por ID |
-| POST | `/matriculas` | Criar nova matrícula |
-| PUT | `/matriculas/:id` | Atualizar matrícula |
-| DELETE | `/matriculas/:id` | Excluir matrícula |
-
-#### Campos
-| Campo | Tipo | Obrigatório | Descrição |
-|-------|------|-------------|-----------|
-| data_inicio | date | Sim | Data de início da matrícula |
-| data_fim | date | Não | Data de fim da matrícula |
-| status | string | Não | Status da matrícula |
-| aluno_id_aluno | number | Sim | ID do aluno |
-| plano_id_plano | number | Sim | ID do plano |
+**Campos:**
+| Campo | Tipo | Obrigatório |
+|-------|------|-------------|
+| nome | string | Sim |
+| descricao | string | Não |
+| musculo_alvo | string | Não |
+| equipamento | string | Não |
 
 ---
 
-### 7. Pagamentos
-Gerenciamento de pagamentos.
-
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| GET | `/pagamentos` | Listar todos os pagamentos |
-| GET | `/pagamentos/:id` | Buscar pagamento por ID |
-| POST | `/pagamentos` | Criar novo pagamento |
-| PUT | `/pagamentos/:id` | Atualizar pagamento |
-| DELETE | `/pagamentos/:id` | Excluir pagamento |
-
-#### Campos
-| Campo | Tipo | Obrigatório | Descrição |
-|-------|------|-------------|-----------|
-| valor | number | Sim | Valor do pagamento |
-| data_vencimento | date | Sim | Data de vencimento |
-| data_pagamento | date | Não | Data em que foi pago |
-| status | string | Não | Status do pagamento |
-| tipo_pagamento | string | Não | Tipo de pagamento |
-| matricula_id_matricula | number | Sim | ID da matrícula |
-
----
-
-### 8. Aulas
-Gerenciamento de aulas.
-
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| GET | `/aulas` | Listar todas as aulas |
-| GET | `/aulas/:id` | Buscar aula por ID |
-| POST | `/aulas` | Criar nova aula |
-| PUT | `/aulas/:id` | Atualizar aula |
-| DELETE | `/aulas/:id` | Excluir aula |
-
-#### Campos
-| Campo | Tipo | Obrigatório | Descrição |
-|-------|------|-------------|-----------|
-| dia_semana | string | Sim | Dia da semana |
-| hora_inicio | time | Sim | Hora de início |
-| hora_fim | time | Não | Hora de fim |
-| capacidade_maxima | number | Não | Capacidade máxima |
-| modalidade_id_modalidade | number | Não | ID da modalidade |
-| instrutor_id_instrutor | number | Não | ID do instrutor |
-
----
-
-### 9. Treinos
-Gerenciamento de treinos.
-
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| GET | `/treinos` | Listar todos os treinos |
-| GET | `/treinos/:id` | Buscar treino por ID |
-| POST | `/treinos` | Criar novo treino |
-| PUT | `/treinos/:id` | Atualizar treino |
-| DELETE | `/treinos/:id` | Excluir treino |
-
----
-
-### 10. Avaliações Físicas
-Gerenciamento de avaliações físicas.
+### 6. Avaliações Físicas
 
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
@@ -267,10 +189,106 @@ Gerenciamento de avaliações físicas.
 | PUT | `/avaliacoes/:id` | Atualizar avaliação |
 | DELETE | `/avaliacoes/:id` | Excluir avaliação |
 
+> **Ordenação:** Por `data_avaliacao` (decrescente)
+
+**Campos:**
+| Campo | Tipo | Obrigatório |
+|-------|------|-------------|
+| data_avaliacao | date | Sim |
+| peso | number | Não |
+| altura | number | Não |
+| observacoes | string | Não |
+| aluno_id_aluno | number | Sim |
+
 ---
 
-### 11. Aluno-Aula (Junction Table)
-Registro de alunos em aulas.
+### 7. Matrículas
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/matriculas` | Listar todas as matrículas |
+| GET | `/matriculas/:id` | Buscar matrícula por ID |
+| POST | `/matriculas` | Criar nova matrícula |
+| PUT | `/matriculas/:id` | Atualizar matrícula |
+| DELETE | `/matriculas/:id` | Excluir matrícula |
+
+**Campos:**
+| Campo | Tipo | Obrigatório |
+|-------|------|-------------|
+| data_inicio | date | Sim |
+| data_fim | date | Não |
+| status | string | Não |
+| aluno_id_aluno | number | Sim |
+| plano_id_plano | number | Sim |
+
+---
+
+### 8. Pagamentos
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/pagamentos` | Listar todos os pagamentos |
+| GET | `/pagamentos/:id` | Buscar pagamento por ID |
+| POST | `/pagamentos` | Criar novo pagamento |
+| PUT | `/pagamentos/:id` | Atualizar pagamento |
+| DELETE | `/pagamentos/:id` | Excluir pagamento |
+
+**Campos:**
+| Campo | Tipo | Obrigatório |
+|-------|------|-------------|
+| valor | number | Sim |
+| data_vencimento | date | Sim |
+| data_pagamento | date | Não |
+| status | string | Não |
+| tipo_pagamento | string | Não |
+| matricula_id_matricula | number | Sim |
+
+---
+
+### 9. Aulas
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/aulas` | Listar todas as aulas |
+| GET | `/aulas/:id` | Buscar aula por ID |
+| POST | `/aulas` | Criar nova aula |
+| PUT | `/aulas/:id` | Atualizar aula |
+| DELETE | `/aulas/:id` | Excluir aula |
+
+**Campos:**
+| Campo | Tipo | Obrigatório |
+|-------|------|-------------|
+| dia_semana | string | Sim |
+| hora_inicio | time | Sim |
+| hora_fim | time | Não |
+| capacidade_maxima | number | Não |
+| modalidade_id_modalidade | number | Não |
+| instrutor_id_instrutor | number | Não |
+
+---
+
+### 10. Treinos
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/treinos` | Listar todos os treinos |
+| GET | `/treinos/:id` | Buscar treino por ID |
+| POST | `/treinos` | Criar novo treino |
+| PUT | `/treinos/:id` | Atualizar treino |
+| DELETE | `/treinos/:id` | Excluir treino |
+
+**Campos:**
+| Campo | Tipo | Obrigatório |
+|-------|------|-------------|
+| nome | string | Sim |
+| descricao | string | Não |
+| aluno_id_aluno | number | Sim |
+
+---
+
+### 11. Aluno-Aula
+
+Relação N:N entre alunos e aulas.
 
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
@@ -278,32 +296,25 @@ Registro de alunos em aulas.
 | POST | `/aluno-aula` | Registrar aluno em aula |
 | DELETE | `/aluno-aula` | Remover aluno da aula |
 
-#### Exemplo - Registrar Aluno em Aula
+**Exemplo - Registrar:**
 ```bash
-POST /api/aluno-aula
-Content-Type: application/json
-
-{
-  "aluno_id_aluno": 1,
-  "aula_id_aula": 3
-}
+curl -X POST http://localhost:10000/api/aluno-aula \
+  -H "Content-Type: application/json" \
+  -d '{"aluno_id_aluno": 1, "aula_id_aula": 3}'
 ```
 
-#### Exemplo - Remover Aluno da Aula
+**Exemplo - Remover:**
 ```bash
-DELETE /api/aluno-aula
-Content-Type: application/json
-
-{
-  "aluno_id_aluno": 1,
-  "aula_id_aula": 3
-}
+curl -X DELETE http://localhost:10000/api/aluno-aula \
+  -H "Content-Type: application/json" \
+  -d '{"aluno_id_aluno": 1, "aula_id_aula": 3}'
 ```
 
 ---
 
-### 12. Treino-Exercício (Junction Table)
-Associação de exercícios em treinos.
+### 12. Treino-Exercício
+
+Relação N:N entre treinos e exercícios.
 
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
@@ -311,16 +322,45 @@ Associação de exercícios em treinos.
 | POST | `/treino-exercicio` | Adicionar exercício ao treino |
 | DELETE | `/treino-exercicio` | Remover exercício do treino |
 
+**Exemplo - Adicionar:**
+```bash
+curl -X POST http://localhost:10000/api/treino-exercicio \
+  -H "Content-Type: application/json" \
+  -d '{"treino_id_treino": 1, "exercicio_id_exercicio": 2}'
+```
+
+**Exemplo - Remover:**
+```bash
+curl -X DELETE http://localhost:10000/api/treino-exercicio \
+  -H "Content-Type: application/json" \
+  -d '{"treino_id_treino": 1, "exercicio_id_exercicio": 2}'
+```
+
 ---
 
-### 13. Plano-Modalidade (Junction Table)
-Associação de modalidades aos planos.
+### 13. Plano-Modalidade
+
+Relação N:N entre planos e modalidades.
 
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
 | GET | `/plano-modalidade` | Listar registros |
 | POST | `/plano-modalidade` | Adicionar modalidade ao plano |
 | DELETE | `/plano-modalidade` | Remover modalidade do plano |
+
+**Exemplo - Adicionar:**
+```bash
+curl -X POST http://localhost:10000/api/plano-modalidade \
+  -H "Content-Type: application/json" \
+  -d '{"plano_id_plano": 1, "modalidade_id_modalidade": 2}'
+```
+
+**Exemplo - Remover:**
+```bash
+curl -X DELETE http://localhost:10000/api/plano-modalidade \
+  -H "Content-Type: application/json" \
+  -d '{"plano_id_plano": 1, "modalidade_id_modalidade": 2}'
+```
 
 ---
 
@@ -331,15 +371,27 @@ Associação de modalidades aos planos.
 | 200 | Sucesso |
 | 201 | Criado com sucesso |
 | 204 | Excluído com sucesso |
-| 400 | Erro na requisição (dados inválidos) |
+| 400 | Erro na requisição |
 | 404 | Recurso não encontrado |
 | 500 | Erro interno do servidor |
 
 ---
 
 ## Error Response
+
 ```json
 {
   "error": "Mensagem de erro"
 }
 ```
+
+---
+
+## Endpoints Públicos
+
+| Endpoint | Descrição |
+|----------|-----------|
+| `/` | Retorna `{ message: "Vital Ativa API", status: "running" }` |
+| `/debug` | Verifica status do servidor |
+| `/debug/db` | Verifica conexão com banco de dados |
+| `/api-docs` | Documentação Swagger UI |
