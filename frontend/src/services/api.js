@@ -1,6 +1,6 @@
-const API_BASE_URL = window.location.hostname === 'localhost' ? '/api' : 'https://vital-ativa-academia.onrender.com/api';
+const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:10000/api' : 'https://vital-ativa-academia.onrender.com/api';
 
-class ApiClient {
+class ApiService {
     constructor(baseUrl = API_BASE_URL) {
         this.baseUrl = baseUrl;
     }
@@ -51,4 +51,4 @@ class ApiClient {
     }
 }
 
-window.apiClient = new ApiClient();
+window.api = new ApiService();
