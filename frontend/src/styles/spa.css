@@ -125,6 +125,10 @@ body {
   color: var(--text-primary);
 }
 
+.nav-link:hover {
+  background: var(--primary-light);
+}
+
 .nav-link.active {
   color: var(--primary);
   background: var(--primary-light);
@@ -198,6 +202,10 @@ body {
   transform: translateY(-2px);
 }
 
+.btn-primary:active {
+  transform: translateY(0);
+}
+
 .btn-outline {
   background: transparent;
   color: var(--text-primary);
@@ -252,6 +260,10 @@ body {
   border-color: var(--primary);
   transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
+}
+
+.plan-card:active {
+  transform: translateY(-2px);
 }
 
 .plan-header {
@@ -331,6 +343,12 @@ body {
 
 .instructor-card:hover {
   border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.instructor-card:active {
+  transform: translateY(0);
 }
 
 .instructor-avatar {
@@ -381,6 +399,11 @@ body {
 .modalidade-card:hover {
   border-color: var(--primary);
   transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.modalidade-card:active {
+  transform: translateY(-2px);
 }
 
 .modalidade-icon {
@@ -626,22 +649,37 @@ body {
 }
 
 .theme-toggle {
-  background: transparent;
+  background: var(--surface);
   border: 1px solid var(--border);
   color: var(--text-secondary);
-  padding: 8px 12px;
-  border-radius: var(--radius-md);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   cursor: pointer;
-  font-size: 0.875rem;
   transition: all var(--transition-normal);
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
 }
 
 .theme-toggle:hover {
   border-color: var(--primary);
   color: var(--primary);
+  transform: scale(1.05);
+  box-shadow: var(--shadow-md);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.theme-toggle svg {
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover svg {
+  transform: rotate(15deg);
 }
 
 @media (max-width: 768px) {

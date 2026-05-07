@@ -28,29 +28,29 @@ const theme = {
   },
   light: {
     colors: {
-      background: '#F8F9FA',
+      background: '#FAFAFA',
       surface: '#FFFFFF',
-      surfaceSecondary: '#F3F4F6',
-      textPrimary: '#1A1A1A',
-      textSecondary: '#6B7280',
-      border: '#E5E7EB',
-      borderLight: '#D1D5DB',
+      surfaceSecondary: '#F0F0F0',
+      textPrimary: '#111111',
+      textSecondary: '#555555',
+      border: '#DDDDDD',
+      borderLight: '#CCCCCC',
       primary: '#E53935',
       primaryHover: '#C62828',
-      primaryLight: 'rgba(229, 57, 53, 0.08)',
-      success: '#15803D',
-      successBg: 'rgba(21, 128, 61, 0.08)',
-      error: '#B91C1C',
-      errorBg: 'rgba(185, 28, 28, 0.08)',
+      primaryLight: 'rgba(229, 57, 53, 0.12)',
+      success: '#16A34A',
+      successBg: 'rgba(22, 163, 74, 0.1)',
+      error: '#DC2626',
+      errorBg: 'rgba(220, 38, 38, 0.1)',
       overlay: 'rgba(0, 0, 0, 0.5)',
-      navbarBg: 'rgba(255, 255, 255, 0.9)'
+      navbarBg: 'rgba(255, 255, 255, 0.95)'
     },
     shadows: {
-      sm: '0 1px 2px rgba(0, 0, 0, 0.05)',
-      md: '0 4px 6px rgba(0, 0, 0, 0.07)',
-      lg: '0 10px 15px rgba(0, 0, 0, 0.1)',
-      glow: '0 0 20px rgba(229, 57, 53, 0.15)',
-      glowStrong: '0 0 40px rgba(229, 57, 53, 0.25)'
+      sm: '0 1px 3px rgba(0, 0, 0, 0.08)',
+      md: '0 4px 8px rgba(0, 0, 0, 0.1)',
+      lg: '0 8px 20px rgba(0, 0, 0, 0.12)',
+      glow: '0 0 20px rgba(229, 57, 53, 0.2)',
+      glowStrong: '0 0 40px rgba(229, 57, 53, 0.35)'
     }
   },
 
