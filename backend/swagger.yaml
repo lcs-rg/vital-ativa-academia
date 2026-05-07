@@ -1,0 +1,1440 @@
+openapi: 3.0.0
+info:
+  title: Vital Ativa API
+  description: API para gerenciamento de academia
+  version: 1.0.0
+  contact:
+    name: Vital Ativa
+
+servers:
+  - url: https://vital-ativa-academia.onrender.com/api
+    description: Produção
+  - url: http://localhost:10000/api
+    description: Desenvolvimento
+
+paths:
+  /alunos:
+    get:
+      summary: Listar todos os alunos
+      tags: [Alunos]
+      responses:
+        '200':
+          description: Lista de alunos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Aluno'
+    post:
+      summary: Criar novo aluno
+      tags: [Alunos]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlunoInput'
+      responses:
+        '201':
+          description: Aluno criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Aluno'
+        '400':
+          $ref: '#/components/responses/Error'
+
+  /alunos/{id}:
+    get:
+      summary: Buscar aluno por ID
+      tags: [Alunos]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Aluno encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Aluno'
+        '404':
+          $ref: '#/components/responses/Error'
+    put:
+      summary: Atualizar aluno
+      tags: [Alunos]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlunoInput'
+      responses:
+        '200':
+          description: Aluno atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Aluno'
+        '400':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+    delete:
+      summary: Excluir aluno
+      tags: [Alunos]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Aluno excluído
+        '404':
+          $ref: '#/components/responses/Error'
+
+  /planos:
+    get:
+      summary: Listar todos os planos
+      tags: [Planos]
+      responses:
+        '200':
+          description: Lista de planos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Plano'
+    post:
+      summary: Criar novo plano
+      tags: [Planos]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlanoInput'
+      responses:
+        '201':
+          description: Plano criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plano'
+        '400':
+          $ref: '#/components/responses/Error'
+
+  /planos/{id}:
+    get:
+      summary: Buscar plano por ID
+      tags: [Planos]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Plano encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plano'
+        '404':
+          $ref: '#/components/responses/Error'
+    put:
+      summary: Atualizar plano
+      tags: [Planos]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlanoInput'
+      responses:
+        '200':
+          description: Plano atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plano'
+        '400':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+    delete:
+      summary: Excluir plano
+      tags: [Planos]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Plano excluído
+        '404':
+          $ref: '#/components/responses/Error'
+
+  /instrutores:
+    get:
+      summary: Listar todos os instrutores
+      tags: [Instrutores]
+      responses:
+        '200':
+          description: Lista de instrutores
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Instrutor'
+    post:
+      summary: Criar novo instrutor
+      tags: [Instrutores]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InstrutorInput'
+      responses:
+        '201':
+          description: Instrutor criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Instrutor'
+        '400':
+          $ref: '#/components/responses/Error'
+
+  /instrutores/{id}:
+    get:
+      summary: Buscar instrutor por ID
+      tags: [Instrutores]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Instrutor encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Instrutor'
+        '404':
+          $ref: '#/components/responses/Error'
+    put:
+      summary: Atualizar instrutor
+      tags: [Instrutores]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InstrutorInput'
+      responses:
+        '200':
+          description: Instrutor atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Instrutor'
+        '400':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+    delete:
+      summary: Excluir instrutor
+      tags: [Instrutores]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Instrutor excluído
+        '404':
+          $ref: '#/components/responses/Error'
+
+  /modalidades:
+    get:
+      summary: Listar todas as modalidades
+      tags: [Modalidades]
+      responses:
+        '200':
+          description: Lista de modalidades
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Modalidade'
+    post:
+      summary: Criar nova modalidade
+      tags: [Modalidades]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModalidadeInput'
+      responses:
+        '201':
+          description: Modalidade criada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Modalidade'
+        '400':
+          $ref: '#/components/responses/Error'
+
+  /modalidades/{id}:
+    get:
+      summary: Buscar modalidade por ID
+      tags: [Modalidades]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Modalidade encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Modalidade'
+        '404':
+          $ref: '#/components/responses/Error'
+    put:
+      summary: Atualizar modalidade
+      tags: [Modalidades]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModalidadeInput'
+      responses:
+        '200':
+          description: Modalidade atualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Modalidade'
+        '400':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+    delete:
+      summary: Excluir modalidade
+      tags: [Modalidades]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Modalidade excluída
+        '404':
+          $ref: '#/components/responses/Error'
+
+  /exercicios:
+    get:
+      summary: Listar todos os exercícios
+      tags: [Exercícios]
+      responses:
+        '200':
+          description: Lista de exercícios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Exercicio'
+    post:
+      summary: Criar novo exercício
+      tags: [Exercícios]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExercicioInput'
+      responses:
+        '201':
+          description: Exercício criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exercicio'
+        '400':
+          $ref: '#/components/responses/Error'
+
+  /exercicios/{id}:
+    get:
+      summary: Buscar exercício por ID
+      tags: [Exercícios]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Exercício encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exercicio'
+        '404':
+          $ref: '#/components/responses/Error'
+    put:
+      summary: Atualizar exercício
+      tags: [Exercícios]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExercicioInput'
+      responses:
+        '200':
+          description: Exercício atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exercicio'
+        '400':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+    delete:
+      summary: Excluir exercício
+      tags: [Exercícios]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Exercício excluído
+        '404':
+          $ref: '#/components/responses/Error'
+
+  /matriculas:
+    get:
+      summary: Listar todas as matrículas
+      tags: [Matrículas]
+      responses:
+        '200':
+          description: Lista de matrículas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Matricula'
+    post:
+      summary: Criar nova matrícula
+      tags: [Matrículas]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MatriculaInput'
+      responses:
+        '201':
+          description: Matrícula criada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Matricula'
+        '400':
+          $ref: '#/components/responses/Error'
+
+  /matriculas/{id}:
+    get:
+      summary: Buscar matrícula por ID
+      tags: [Matrículas]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Matrícula encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Matricula'
+        '404':
+          $ref: '#/components/responses/Error'
+    put:
+      summary: Atualizar matrícula
+      tags: [Matrículas]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MatriculaInput'
+      responses:
+        '200':
+          description: Matrícula atualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Matricula'
+        '400':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+    delete:
+      summary: Excluir matrícula
+      tags: [Matrículas]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Matrícula excluída
+        '404':
+          $ref: '#/components/responses/Error'
+
+  /pagamentos:
+    get:
+      summary: Listar todos os pagamentos
+      tags: [Pagamentos]
+      responses:
+        '200':
+          description: Lista de pagamentos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pagamento'
+    post:
+      summary: Criar novo pagamento
+      tags: [Pagamentos]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PagamentoInput'
+      responses:
+        '201':
+          description: Pagamento criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pagamento'
+        '400':
+          $ref: '#/components/responses/Error'
+
+  /pagamentos/{id}:
+    get:
+      summary: Buscar pagamento por ID
+      tags: [Pagamentos]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Pagamento encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pagamento'
+        '404':
+          $ref: '#/components/responses/Error'
+    put:
+      summary: Atualizar pagamento
+      tags: [Pagamentos]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PagamentoInput'
+      responses:
+        '200':
+          description: Pagamento atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pagamento'
+        '400':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+    delete:
+      summary: Excluir pagamento
+      tags: [Pagamentos]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Pagamento excluído
+        '404':
+          $ref: '#/components/responses/Error'
+
+  /aulas:
+    get:
+      summary: Listar todas as aulas
+      tags: [Aulas]
+      responses:
+        '200':
+          description: Lista de aulas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Aula'
+    post:
+      summary: Criar nova aula
+      tags: [Aulas]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AulaInput'
+      responses:
+        '201':
+          description: Aula criada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Aula'
+        '400':
+          $ref: '#/components/responses/Error'
+
+  /aulas/{id}:
+    get:
+      summary: Buscar aula por ID
+      tags: [Aulas]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Aula encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Aula'
+        '404':
+          $ref: '#/components/responses/Error'
+    put:
+      summary: Atualizar aula
+      tags: [Aulas]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AulaInput'
+      responses:
+        '200':
+          description: Aula atualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Aula'
+        '400':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+    delete:
+      summary: Excluir aula
+      tags: [Aulas]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Aula excluída
+        '404':
+          $ref: '#/components/responses/Error'
+
+  /treinos:
+    get:
+      summary: Listar todos os treinos
+      tags: [Treinos]
+      responses:
+        '200':
+          description: Lista de treinos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Treino'
+    post:
+      summary: Criar novo treino
+      tags: [Treinos]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TreinoInput'
+      responses:
+        '201':
+          description: Treino criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Treino'
+        '400':
+          $ref: '#/components/responses/Error'
+
+  /treinos/{id}:
+    get:
+      summary: Buscar treino por ID
+      tags: [Treinos]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Treino encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Treino'
+        '404':
+          $ref: '#/components/responses/Error'
+    put:
+      summary: Atualizar treino
+      tags: [Treinos]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TreinoInput'
+      responses:
+        '200':
+          description: Treino atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Treino'
+        '400':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+    delete:
+      summary: Excluir treino
+      tags: [Treinos]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Treino excluído
+        '404':
+          $ref: '#/components/responses/Error'
+
+  /avaliacoes:
+    get:
+      summary: Listar todas as avaliações físicas
+      tags: [Avaliações Físicas]
+      responses:
+        '200':
+          description: Lista de avaliações
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Avaliacao'
+    post:
+      summary: Criar nova avaliação física
+      tags: [Avaliações Físicas]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AvaliacaoInput'
+      responses:
+        '201':
+          description: Avaliação criada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Avaliacao'
+        '400':
+          $ref: '#/components/responses/Error'
+
+  /avaliacoes/{id}:
+    get:
+      summary: Buscar avaliação por ID
+      tags: [Avaliações Físicas]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Avaliação encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Avaliacao'
+        '404':
+          $ref: '#/components/responses/Error'
+    put:
+      summary: Atualizar avaliação física
+      tags: [Avaliações Físicas]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AvaliacaoInput'
+      responses:
+        '200':
+          description: Avaliação atualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Avaliacao'
+        '400':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+    delete:
+      summary: Excluir avaliação física
+      tags: [Avaliações Físicas]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Avaliação excluída
+        '404':
+          $ref: '#/components/responses/Error'
+
+  /aluno-aula:
+    get:
+      summary: Listar registros de alunos em aulas
+      tags: [Aluno-Aula]
+      responses:
+        '200':
+          description: Lista de registros
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AlunoAula'
+    post:
+      summary: Registrar aluno em aula
+      tags: [Aluno-Aula]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlunoAulaInput'
+      responses:
+        '201':
+          description: Registro criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlunoAula'
+        '400':
+          $ref: '#/components/responses/Error'
+    delete:
+      summary: Remover aluno da aula
+      tags: [Aluno-Aula]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlunoAulaInput'
+      responses:
+        '204':
+          description: Registro removido
+        '400':
+          $ref: '#/components/responses/Error'
+
+  /treino-exercicio:
+    get:
+      summary: Listar registros de exercícios em treinos
+      tags: [Treino-Exercício]
+      responses:
+        '200':
+          description: Lista de registros
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TreinoExercicio'
+    post:
+      summary: Adicionar exercício ao treino
+      tags: [Treino-Exercício]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TreinoExercicioInput'
+      responses:
+        '201':
+          description: Registro criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TreinoExercicio'
+        '400':
+          $ref: '#/components/responses/Error'
+    delete:
+      summary: Remover exercício do treino
+      tags: [Treino-Exercício]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TreinoExercicioInput'
+      responses:
+        '204':
+          description: Registro removido
+        '400':
+          $ref: '#/components/responses/Error'
+
+  /plano-modalidade:
+    get:
+      summary: Listar registros de modalidades em planos
+      tags: [Plano-Modalidade]
+      responses:
+        '200':
+          description: Lista de registros
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PlanoModalidade'
+    post:
+      summary: Adicionar modalidade ao plano
+      tags: [Plano-Modalidade]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlanoModalidadeInput'
+      responses:
+        '201':
+          description: Registro criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanoModalidade'
+        '400':
+          $ref: '#/components/responses/Error'
+    delete:
+      summary: Remover modalidade do plano
+      tags: [Plano-Modalidade]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlanoModalidadeInput'
+      responses:
+        '204':
+          description: Registro removido
+        '400':
+          $ref: '#/components/responses/Error'
+
+components:
+  schemas:
+    Aluno:
+      type: object
+      properties:
+        id_aluno:
+          type: integer
+        nome:
+          type: string
+        cpf:
+          type: string
+        email:
+          type: string
+        telefone:
+          type: string
+        data_nascimento:
+          type: string
+          format: date
+
+    AlunoInput:
+      type: object
+      required:
+        - nome
+        - cpf
+        - email
+      properties:
+        nome:
+          type: string
+        cpf:
+          type: string
+        email:
+          type: string
+        telefone:
+          type: string
+        data_nascimento:
+          type: string
+          format: date
+
+    Plano:
+      type: object
+      properties:
+        id_plano:
+          type: integer
+        nome:
+          type: string
+        valor:
+          type: number
+        duracao_meses:
+          type: integer
+        descricao:
+          type: string
+
+    PlanoInput:
+      type: object
+      required:
+        - nome
+        - valor
+        - duracao_meses
+      properties:
+        nome:
+          type: string
+        valor:
+          type: number
+        duracao_meses:
+          type: integer
+        descricao:
+          type: string
+
+    Instrutor:
+      type: object
+      properties:
+        id_instrutor:
+          type: integer
+        nome:
+          type: string
+        telefone:
+          type: string
+        email:
+          type: string
+
+    InstrutorInput:
+      type: object
+      required:
+        - nome
+        - email
+      properties:
+        nome:
+          type: string
+        telefone:
+          type: string
+        email:
+          type: string
+
+    Modalidade:
+      type: object
+      properties:
+        id_modalidade:
+          type: integer
+        nome:
+          type: string
+
+    ModalidadeInput:
+      type: object
+      required:
+        - nome
+      properties:
+        nome:
+          type: string
+
+    Exercicio:
+      type: object
+      properties:
+        id_exercicio:
+          type: integer
+        nome:
+          type: string
+        descricao:
+          type: string
+
+    ExercicioInput:
+      type: object
+      required:
+        - nome
+      properties:
+        nome:
+          type: string
+        descricao:
+          type: string
+
+    Matricula:
+      type: object
+      properties:
+        id_matricula:
+          type: integer
+        data_inicio:
+          type: string
+          format: date
+        data_fim:
+          type: string
+          format: date
+        status:
+          type: string
+        aluno_id_aluno:
+          type: integer
+        plano_id_plano:
+          type: integer
+
+    MatriculaInput:
+      type: object
+      required:
+        - data_inicio
+        - aluno_id_aluno
+        - plano_id_plano
+      properties:
+        data_inicio:
+          type: string
+          format: date
+        data_fim:
+          type: string
+          format: date
+        status:
+          type: string
+        aluno_id_aluno:
+          type: integer
+        plano_id_plano:
+          type: integer
+
+    Pagamento:
+      type: object
+      properties:
+        id_pagamento:
+          type: integer
+        valor:
+          type: number
+        data_vencimento:
+          type: string
+          format: date
+        data_pagamento:
+          type: string
+          format: date
+        status:
+          type: string
+        tipo_pagamento:
+          type: string
+        matricula_id_matricula:
+          type: integer
+
+    PagamentoInput:
+      type: object
+      required:
+        - valor
+        - data_vencimento
+        - matricula_id_matricula
+      properties:
+        valor:
+          type: number
+        data_vencimento:
+          type: string
+          format: date
+        data_pagamento:
+          type: string
+          format: date
+        status:
+          type: string
+        tipo_pagamento:
+          type: string
+        matricula_id_matricula:
+          type: integer
+
+    Aula:
+      type: object
+      properties:
+        id_aula:
+          type: integer
+        dia_semana:
+          type: string
+        hora_inicio:
+          type: string
+          format: time
+        hora_fim:
+          type: string
+          format: time
+        capacidade_maxima:
+          type: integer
+        modalidade_id_modalidade:
+          type: integer
+        instrutor_id_instrutor:
+          type: integer
+
+    AulaInput:
+      type: object
+      required:
+        - dia_semana
+        - hora_inicio
+      properties:
+        dia_semana:
+          type: string
+        hora_inicio:
+          type: string
+          format: time
+        hora_fim:
+          type: string
+          format: time
+        capacidade_maxima:
+          type: integer
+        modalidade_id_modalidade:
+          type: integer
+        instrutor_id_instrutor:
+          type: integer
+
+    Treino:
+      type: object
+      properties:
+        id_treino:
+          type: integer
+        nome:
+          type: string
+
+    TreinoInput:
+      type: object
+      required:
+        - nome
+      properties:
+        nome:
+          type: string
+
+    Avaliacao:
+      type: object
+      properties:
+        id_avaliacao:
+          type: integer
+        data:
+          type: string
+          format: date
+        peso:
+          type: number
+        altura:
+          type: number
+        aluno_id_aluno:
+          type: integer
+
+    AvaliacaoInput:
+      type: object
+      required:
+        - data
+        - aluno_id_aluno
+      properties:
+        data:
+          type: string
+          format: date
+        peso:
+          type: number
+        altura:
+          type: number
+        aluno_id_aluno:
+          type: integer
+
+    AlunoAula:
+      type: object
+      properties:
+        aluno_id_aluno:
+          type: integer
+        aula_id_aula:
+          type: integer
+
+    AlunoAulaInput:
+      type: object
+      required:
+        - aluno_id_aluno
+        - aula_id_aula
+      properties:
+        aluno_id_aluno:
+          type: integer
+        aula_id_aula:
+          type: integer
+
+    TreinoExercicio:
+      type: object
+      properties:
+        treino_id_treino:
+          type: integer
+        exercicio_id_exercicio:
+          type: integer
+
+    TreinoExercicioInput:
+      type: object
+      required:
+        - treino_id_treino
+        - exercicio_id_exercicio
+      properties:
+        treino_id_treino:
+          type: integer
+        exercicio_id_exercicio:
+          type: integer
+
+    PlanoModalidade:
+      type: object
+      properties:
+        plano_id_plano:
+          type: integer
+        modalidade_id_modalidade:
+          type: integer
+
+    PlanoModalidadeInput:
+      type: object
+      required:
+        - plano_id_plano
+        - modalidade_id_modalidade
+      properties:
+        plano_id_plano:
+          type: integer
+        modalidade_id_modalidade:
+          type: integer
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+
+  responses:
+    Error:
+      description: Erro
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
