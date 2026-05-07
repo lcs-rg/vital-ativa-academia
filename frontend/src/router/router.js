@@ -40,13 +40,14 @@ class Router {
         this.handleRoute();
     }
 
-    render(componentName) {
+    async render(componentName) {
         const app = document.getElementById('app');
         if (!app) return;
 
         const component = window[componentName];
         if (component) {
-            app.innerHTML = component();
+            const html = await component();
+            app.innerHTML = html;
         }
     }
 
