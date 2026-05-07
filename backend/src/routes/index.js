@@ -1,21 +1,22 @@
 const express = require('express');
 const router = express.Router();
 
-const createGenericRoutes = require('./planoRoutes');
-const instrutorRoutes = require('./instrutorRoutes');
-const modalidadeRoutes = require('./modalidadeRoutes');
-const exercicioRoutes = require('./exercicioRoutes');
-const avaliacaoRoutes = require('./avaliacaoRoutes');
-const matriculaRoutes = require('./matriculaRoutes');
-const pagamentoRoutes = require('./pagamentoRoutes');
-const aulaRoutes = require('./aulaRoutes');
-const treinoRoutes = require('./treinoRoutes');
-const alunoAulaRoutes = require('./alunoAulaRoutes');
-const treinoExercicioRoutes = require('./treinoExercicioRoutes');
-const planoModalidadeRoutes = require('./planoModalidadeRoutes');
+const alunoRoutes = require('../modules/aluno/routes');
+const planoRoutes = require('../modules/plano/routes');
+const instrutorRoutes = require('../modules/instrutor/routes');
+const modalidadeRoutes = require('../modules/modalidade/routes');
+const exercicioRoutes = require('../modules/exercicio/routes');
+const avaliacaoRoutes = require('../modules/avaliacao/routes');
+const matriculaRoutes = require('../modules/matricula/routes');
+const pagamentoRoutes = require('../modules/pagamento/routes');
+const aulaRoutes = require('../modules/aula/routes');
+const treinoRoutes = require('../modules/treino/routes');
+const alunoAulaRoutes = require('../modules/alunoAula/routes');
+const treinoExercicioRoutes = require('../modules/treinoExercicio/routes');
+const planoModalidadeRoutes = require('../modules/planoModalidade/routes');
 
-router.use('/alunos', createGenericRoutes());
-router.use('/planos', createGenericRoutes());
+router.use('/alunos', alunoRoutes);
+router.use('/planos', planoRoutes);
 router.use('/instrutores', instrutorRoutes);
 router.use('/modalidades', modalidadeRoutes);
 router.use('/exercicios', exercicioRoutes);
