@@ -35,13 +35,19 @@ GET /api/alunos
     "cpf": "123.456.789-00",
     "email": "joao@email.com",
     "telefone": "(11) 99999-9999",
-    "data_nascimento": "1990-01-15",
-    "altura": 1.75,
-    "peso": 70.5,
-    "objetivo": "Perda de peso"
+    "data_nascimento": "1990-01-15"
   }
 ]
 ```
+
+#### Campos
+| Campo | Tipo | Obrigatório | Descrição |
+|-------|------|-------------|-----------|
+| nome | string | Sim | Nome do aluno |
+| cpf | string | Sim | CPF do aluno |
+| email | string | Sim | Email do aluno |
+| telefone | string | Não | Telefone de contato |
+| data_nascimento | date | Não | Data de nascimento |
 
 #### Exemplo - Criar Aluno
 ```bash
@@ -53,10 +59,7 @@ Content-Type: application/json
   "cpf": "123.456.789-00",
   "email": "joao@email.com",
   "telefone": "(11) 99999-9999",
-  "data_nascimento": "1990-01-15",
-  "altura": 1.75,
-  "peso": 70.5,
-  "objetivo": "Perda de peso"
+  "data_nascimento": "1990-01-15"
 }
 ```
 
@@ -68,10 +71,7 @@ Content-Type: application/json
   "cpf": "123.456.789-00",
   "email": "joao@email.com",
   "telefone": "(11) 99999-9999",
-  "data_nascimento": "1990-01-15",
-  "altura": 1.75,
-  "peso": 70.5,
-  "objetivo": "Perda de peso"
+  "data_nascimento": "1990-01-15"
 }
 ```
 
@@ -211,9 +211,11 @@ Gerenciamento de pagamentos.
 #### Campos
 | Campo | Tipo | Obrigatório | Descrição |
 |-------|------|-------------|-----------|
-| data_pagamento | date | Sim | Data do pagamento |
-| valor | number | Sim | Valor pago |
-| forma_pagamento | string | Não | Forma de pagamento |
+| valor | number | Sim | Valor do pagamento |
+| data_vencimento | date | Sim | Data de vencimento |
+| data_pagamento | date | Não | Data em que foi pago |
+| status | string | Não | Status do pagamento |
+| tipo_pagamento | string | Não | Tipo de pagamento |
 | matricula_id_matricula | number | Sim | ID da matrícula |
 
 ---
