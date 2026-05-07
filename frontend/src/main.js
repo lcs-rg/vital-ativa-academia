@@ -43,6 +43,7 @@ function loadScripts(scripts, callback) {
 }
 
 function init() {
+    window.createRouter();
     setupMatriculaForm();
 }
 

@@ -1,6 +1,14 @@
 {
   "outputDirectory": "frontend",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+    { "source": "/:path*", "destination": "/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+      ]
+    }
   ]
 }

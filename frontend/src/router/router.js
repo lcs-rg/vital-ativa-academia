@@ -10,6 +10,9 @@ class Router {
     constructor() {
         this.currentRoute = '/';
         this.params = {};
+    }
+
+    start() {
         this.init();
     }
 
@@ -52,4 +55,8 @@ class Router {
     }
 }
 
-window.router = new Router();
+window.createRouter = function() {
+    const router = new Router();
+    router.start();
+    window.router = router;
+};
