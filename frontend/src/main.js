@@ -43,6 +43,9 @@ function loadScripts(scripts, callback) {
 }
 
 function init() {
+    if (window.theme) {
+        window.theme.init();
+    }
     window.createRouter();
     setupMatriculaForm();
 }

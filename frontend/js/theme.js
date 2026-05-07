@@ -1,45 +1,57 @@
 const theme = {
-  colors: {
-    primary: {
-      main: '#111111',
-      secondary: '#1A1A1A',
-      tertiary: '#262626'
-    },
-    accent: {
-      main: '#E53935',
-      hover: '#C62828',
-      light: '#FFEBEE'
-    },
-    neutral: {
-      white: '#FFFFFF',
-      light: '#E5E7EB',
-      medium: '#9CA3AF',
-      dark: '#374151'
-    },
-    gray: {
-      50: '#F9FAFB',
-      100: '#F3F4F6',
-      200: '#E5E7EB',
-      300: '#D1D5DB',
-      400: '#9CA3AF',
-      500: '#6B7280',
-      600: '#4B5563',
-      700: '#374151',
-      800: '#1F2937',
-      900: '#111827'
-    },
-    status: {
+  dark: {
+    colors: {
+      background: '#111111',
+      surface: '#1A1A1A',
+      surfaceSecondary: '#262626',
+      textPrimary: '#FFFFFF',
+      textSecondary: '#9CA3AF',
+      border: '#2A2A2A',
+      borderLight: '#374151',
+      primary: '#E53935',
+      primaryHover: '#C62828',
+      primaryLight: 'rgba(229, 57, 53, 0.1)',
       success: '#10B981',
-      successBg: '#ECFDF5',
-      warning: '#F59E0B',
-      warningBg: '#FFFBEB',
+      successBg: 'rgba(16, 185, 129, 0.1)',
       error: '#E53935',
-      errorBg: '#FEF2F2',
-      info: '#3B82F6',
-      infoBg: '#EFF6FF'
+      errorBg: 'rgba(229, 57, 53, 0.1)',
+      overlay: 'rgba(0, 0, 0, 0.85)',
+      navbarBg: 'rgba(17, 17, 17, 0.9)'
     },
-    divider: '#2A2A2A',
-    overlay: 'rgba(0, 0, 0, 0.85)'
+    shadows: {
+      sm: '0 1px 2px rgba(0, 0, 0, 0.3)',
+      md: '0 4px 6px rgba(0, 0, 0, 0.3)',
+      lg: '0 10px 15px rgba(0, 0, 0, 0.3)',
+      glow: '0 0 20px rgba(229, 57, 53, 0.3)',
+      glowStrong: '0 0 40px rgba(229, 57, 53, 0.5)'
+    }
+  },
+  light: {
+    colors: {
+      background: '#F8F9FA',
+      surface: '#FFFFFF',
+      surfaceSecondary: '#F3F4F6',
+      textPrimary: '#1A1A1A',
+      textSecondary: '#6B7280',
+      border: '#E5E7EB',
+      borderLight: '#D1D5DB',
+      primary: '#E53935',
+      primaryHover: '#C62828',
+      primaryLight: 'rgba(229, 57, 53, 0.08)',
+      success: '#15803D',
+      successBg: 'rgba(21, 128, 61, 0.08)',
+      error: '#B91C1C',
+      errorBg: 'rgba(185, 28, 28, 0.08)',
+      overlay: 'rgba(0, 0, 0, 0.5)',
+      navbarBg: 'rgba(255, 255, 255, 0.9)'
+    },
+    shadows: {
+      sm: '0 1px 2px rgba(0, 0, 0, 0.05)',
+      md: '0 4px 6px rgba(0, 0, 0, 0.07)',
+      lg: '0 10px 15px rgba(0, 0, 0, 0.1)',
+      glow: '0 0 20px rgba(229, 57, 53, 0.15)',
+      glowStrong: '0 0 40px rgba(229, 57, 53, 0.25)'
+    }
   },
 
   typography: {
@@ -100,16 +112,6 @@ const theme = {
     full: '9999px'
   },
 
-  shadows: {
-    sm: '0 1px 2px rgba(0, 0, 0, 0.3)',
-    md: '0 4px 6px rgba(0, 0, 0, 0.3)',
-    lg: '0 10px 15px rgba(0, 0, 0, 0.3)',
-    xl: '0 20px 25px rgba(0, 0, 0, 0.3)',
-    glow: '0 0 20px rgba(229, 57, 53, 0.3)',
-    glowStrong: '0 0 40px rgba(229, 57, 53, 0.5)',
-    inner: 'inset 0 2px 4px rgba(0, 0, 0, 0.2)'
-  },
-
   transitions: {
     fast: '150ms cubic-bezier(0.4, 0, 0.2, 1)',
     normal: '200ms cubic-bezier(0.4, 0, 0.2, 1)',
@@ -135,6 +137,66 @@ const theme = {
     popover: 600,
     tooltip: 700,
     toast: 800
+  }
+};
+
+theme.setTheme = function(mode) {
+  const isDark = mode === 'dark';
+  const colors = isDark ? this.dark.colors : this.light.colors;
+  const shadows = isDark ? this.dark.shadows : this.light.shadows;
+
+  const root = document.documentElement;
+  root.style.setProperty('--bg', colors.background);
+  root.style.setProperty('--surface', colors.surface);
+  root.style.setProperty('--surface-secondary', colors.surfaceSecondary);
+  root.style.setProperty('--text-primary', colors.textPrimary);
+  root.style.setProperty('--text-secondary', colors.textSecondary);
+  root.style.setProperty('--border', colors.border);
+  root.style.setProperty('--border-light', colors.borderLight);
+  root.style.setProperty('--primary', colors.primary);
+  root.style.setProperty('--primary-hover', colors.primaryHover);
+  root.style.setProperty('--primary-light', colors.primaryLight);
+  root.style.setProperty('--success', colors.success);
+  root.style.setProperty('--success-bg', colors.successBg);
+  root.style.setProperty('--error', colors.error);
+  root.style.setProperty('--error-bg', colors.errorBg);
+  root.style.setProperty('--overlay', colors.overlay);
+  root.style.setProperty('--navbar-bg', colors.navbarBg);
+
+  root.style.setProperty('--shadow-sm', shadows.sm);
+  root.style.setProperty('--shadow-md', shadows.md);
+  root.style.setProperty('--shadow-lg', shadows.lg);
+  root.style.setProperty('--shadow-glow', shadows.glow);
+  root.style.setProperty('--shadow-glow-strong', shadows.glowStrong);
+
+  document.body.setAttribute('data-theme', mode);
+  localStorage.setItem('theme', mode);
+};
+
+theme.init = function() {
+  const saved = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const mode = saved || (prefersDark ? 'dark' : 'dark');
+  this.setTheme(mode);
+};
+
+theme.toggle = function() {
+  const current = document.body.getAttribute('data-theme') || 'dark';
+  this.setTheme(current === 'dark' ? 'light' : 'dark');
+  if (window.router) {
+    const app = document.getElementById('app');
+    if (app) {
+      const routes = {
+        '/': { title: 'Vital Ativa', component: 'HomePage' },
+        '/planos': { title: 'Planos - Vital Ativa', component: 'PlanosPage' },
+        '/instrutores': { title: 'Instrutores - Vital Ativa', component: 'InstrutoresPage' },
+        '/modalidades': { title: 'Modalidades - Vital Ativa', component: 'ModalidadesPage' },
+        '/matricula': { title: 'Matrícula - Vital Ativa', component: 'MatriculaPage' }
+      };
+      const path = window.router.currentRoute;
+      const route = routes[path] || routes['/'];
+      window.router.render(route.component);
+    }
   }
 };
 

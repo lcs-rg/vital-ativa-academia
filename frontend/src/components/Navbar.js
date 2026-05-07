@@ -1,4 +1,8 @@
 function Navbar() {
+    const isDark = document.body.getAttribute('data-theme') !== 'light';
+    const icon = isDark ? '☀️' : '🌙';
+    const label = isDark ? 'Claro' : 'Escuro';
+
     return `
     <header class="header">
         <div class="container">
@@ -9,6 +13,7 @@ function Navbar() {
                     <li><a href="/planos" data-link class="nav-link ${getActive('/planos')}">Planos</a></li>
                     <li><a href="/modalidades" data-link class="nav-link ${getActive('/modalidades')}">Modalidades</a></li>
                     <li><a href="/instrutores" data-link class="nav-link ${getActive('/instrutores')}">Equipe</a></li>
+                    <li><button class="theme-toggle" onclick="window.theme.toggle()">${icon} ${label}</button></li>
                     <li><a href="/matricula" data-link class="nav-link btn-matricula">Matricule-se</a></li>
                 </ul>
             </nav>
