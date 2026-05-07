@@ -7,10 +7,7 @@ const PAGES = {
             { name: 'cpf', label: 'CPF', type: 'text', required: true },
             { name: 'email', label: 'Email', type: 'email', required: true },
             { name: 'telefone', label: 'Telefone', type: 'text' },
-            { name: 'data_nascimento', label: 'Data de Nascimento', type: 'date' },
-            { name: 'altura', label: 'Altura (m)', type: 'number', step: '0.01' },
-            { name: 'peso', label: 'Peso (kg)', type: 'number', step: '0.01' },
-            { name: 'objetivo', label: 'Objetivo', type: 'text' }
+            { name: 'data_nascimento', label: 'Data de Nascimento', type: 'date' }
         ],
         columns: [
             { key: 'id_aluno', label: 'ID' },
@@ -61,7 +58,7 @@ const PAGES = {
             { name: 'hora_fim', label: 'Hora Fim', type: 'time' },
             { name: 'capacidade_maxima', label: 'Capacidade Máxima', type: 'number' },
             { name: 'modalidade_id_modalidade', label: 'Modalidade', type: 'select', options: [{value:'', label:'Selecione...'}] },
-            { name: 'instrutor_id_Instrutor', label: 'Instrutor', type: 'select', options: [{value:'', label:'Selecione...'}] }
+            { name: 'instrutor_id_instrutor', label: 'Instrutor', type: 'select', options: [{value:'', label:'Selecione...'}] }
         ],
         columns: [
             { key: 'id_aula', label: 'ID' },
