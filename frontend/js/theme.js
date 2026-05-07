@@ -182,24 +182,19 @@ theme.init = function() {
 
 theme.toggle = function() {
   const current = document.body.getAttribute('data-theme') || 'dark';
-  this.setTheme(current === 'dark' ? 'light' : 'dark');
-  if (window.router) {
-    const app = document.getElementById('app');
-    if (app) {
-      const routes = {
-        '/': { title: 'Vital Ativa', component: 'HomePage' },
-        '/planos': { title: 'Planos - Vital Ativa', component: 'PlanosPage' },
-        '/instrutores': { title: 'Instrutores - Vital Ativa', component: 'InstrutoresPage' },
-        '/modalidades': { title: 'Modalidades - Vital Ativa', component: 'ModalidadesPage' },
-        '/matricula': { title: 'Matrícula - Vital Ativa', component: 'MatriculaPage' }
-      };
-      const path = window.router.currentRoute;
-      const route = routes[path] || routes['/'];
-      window.router.render(route.component);
+  const newTheme = current === 'dark' ? 'light' : 'dark';
+  this.setTheme(newTheme);
+
+  setTimeout(() => {
+    const navbar = document.querySelector('.header');
+    if (navbar) {
+      navbar.outerHTML = window.Navbar();
     }
-  }
+  }, 50);
 };
 
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { theme };
 }
+
+window.theme = theme;
