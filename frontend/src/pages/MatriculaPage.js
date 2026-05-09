@@ -34,9 +34,9 @@ function MatriculaPage() {
                         <h3 class="form-section-title">Endereço</h3>
                         <div class="form-grid">
                             <div class="form-group">
-                                <label class="form-label" for="cep">CEP *</label>
+                                <label class="form-label" for="cep">CEP</label>
                                 <div class="input-with-loading">
-                                    <input type="text" id="cep" name="cep" class="form-input" maxlength="8" required>
+                                    <input type="text" id="cep" name="cep" class="form-input" maxlength="9" placeholder="00000000">
                                     <span class="loading-spinner" id="cepLoading" style="display: none;"></span>
                                 </div>
                             </div>

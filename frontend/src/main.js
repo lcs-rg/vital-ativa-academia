@@ -57,8 +57,8 @@ function setupMatriculaForm() {
     const cepInput = document.getElementById('cep');
     const loading = document.getElementById('cepLoading');
 
-    cepInput.addEventListener('blur', async () => {
-        const cep = cepInput.value;
+    const buscarCep = async () => {
+        const cep = cepInput.value.replace(/\D/g, '');
         if (cep.length < 8) return;
 
         loading.style.display = 'inline-block';
@@ -73,6 +73,14 @@ function setupMatriculaForm() {
             showMessage('CEP não encontrado', 'error');
         } finally {
             loading.style.display = 'none';
+        }
+    };
+
+    cepInput.addEventListener('blur', buscarCep);
+    cepInput.addEventListener('keypress', async (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            await buscarCep();
         }
     });
 
