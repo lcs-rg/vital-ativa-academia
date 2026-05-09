@@ -42,19 +42,19 @@ function MatriculaPage() {
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="rua">Rua</label>
-                                <input type="text" id="rua" name="rua" class="form-input" readonly>
+                                <input type="text" id="rua" name="rua" class="form-input">
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="bairro">Bairro</label>
-                                <input type="text" id="bairro" name="bairro" class="form-input" readonly>
+                                <input type="text" id="bairro" name="bairro" class="form-input">
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="cidade">Cidade</label>
-                                <input type="text" id="cidade" name="cidade" class="form-input" readonly>
+                                <input type="text" id="cidade" name="cidade" class="form-input">
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="estado">Estado</label>
-                                <input type="text" id="estado" name="estado" class="form-input" readonly>
+                                <input type="text" id="estado" name="estado" class="form-input">
                             </div>
                         </div>
                     </div>

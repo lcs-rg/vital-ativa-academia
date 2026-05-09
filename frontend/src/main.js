@@ -77,9 +77,10 @@ function setupMatriculaForm() {
     };
 
     cepInput.addEventListener('blur', buscarCep);
-    cepInput.addEventListener('keypress', async (e) => {
+    cepInput.addEventListener('keydown', async (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
+            cepInput.blur();
             await buscarCep();
         }
     });
