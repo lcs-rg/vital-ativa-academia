@@ -59,7 +59,7 @@ function setupMatriculaForm() {
 
     const buscarCep = async () => {
         const cep = cepInput.value.replace(/\D/g, '');
-        if (cep.length < 8) return;
+        if (cep.length !== 8) return;
 
         loading.style.display = 'inline-block';
         
@@ -76,14 +76,13 @@ function setupMatriculaForm() {
         }
     };
 
-    cepInput.addEventListener('blur', buscarCep);
-    cepInput.addEventListener('keydown', async (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
+    cepInput.addEventListener('input', () => {
+        if (cepInput.value.length === 8) {
             cepInput.blur();
-            await buscarCep();
         }
     });
+    
+    cepInput.addEventListener('blur', buscarCep);
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
