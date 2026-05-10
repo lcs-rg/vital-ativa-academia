@@ -1,4 +1,5 @@
 function MatriculaPage() {
+    setupMatriculaForm();
     return `
     ${window.Navbar()}
     <main class="main">
@@ -72,4 +73,99 @@ function MatriculaPage() {
     `;
 }
 
+function setupMatriculaForm() {
+    const form = document.getElementById('matriculaForm');
+    if (!form) return;
+
+    const cepInput = document.getElementById('cep');
+    const loading = document.getElementById('cepLoading');
+    if (!cepInput || !loading) return;
+
+    let cepSearched = false;
+
+    cepInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            console.log('[ViaCEP] ENTER detectado - CEP:', e.target.value);
+            cepInput.blur();
+        }
+    });
+
+    cepInput.addEventListener('input', () => {
+        const digits = cepInput.value.replace(/\D/g, '');
+        if (digits.length === 8) {
+            cepInput.blur();
+        }
+    });
+
+    cepInput.addEventListener('blur', () => {
+        if (cepSearched) return;
+        const cep = cepInput.value.replace(/\D/g, '');
+        if (cep.length === 8) {
+            cepSearched = true;
+            buscarCep();
+        }
+    });
+
+    const buscarCep = async () => {
+        const cep = cepInput.value.replace(/\D/g, '');
+        if (cep.length !== 8) return;
+
+        console.log('[ViaCEP] Iniciando busca - CEP:', cep);
+        loading.style.display = 'inline-block';
+
+        try {
+            const data = await window.viacep.buscarCep(cep);
+            console.log('[ViaCEP] Resposta:', data);
+            document.getElementById('rua').value = data.logradouro || '';
+            document.getElementById('bairro').value = data.bairro || '';
+            document.getElementById('cidade').value = data.localidade || '';
+            document.getElementById('estado').value = data.uf || '';
+            console.log('[ViaCEP] Campos preenchidos');
+        } catch (error) {
+            console.error('[ViaCEP] Erro:', error.message);
+            showMessage(error.message, 'error');
+        } finally {
+            loading.style.display = 'none';
+            cepSearched = false;
+        }
+    };
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const formData = {
+            nome: document.getElementById('nome').value,
+            email: document.getElementById('email').value,
+            telefone: document.getElementById('telefone').value,
+            cep: document.getElementById('cep').value,
+            rua: document.getElementById('rua').value,
+            bairro: document.getElementById('bairro').value,
+            cidade: document.getElementById('cidade').value,
+            estado: document.getElementById('estado').value
+        };
+
+        window.api.post('/alunos', formData)
+            .then(() => {
+                showMessage('Matrícula solicitada com sucesso!', 'success');
+                form.reset();
+            })
+            .catch((error) => {
+                showMessage(error.message || 'Erro ao enviar matrícula', 'error');
+            });
+    });
+}
+
+function showMessage(message, type) {
+    const msgEl = document.getElementById('formMessage');
+    if (!msgEl) return;
+    msgEl.textContent = message;
+    msgEl.className = `form-message ${type}`;
+    setTimeout(() => {
+        msgEl.className = 'form-message';
+    }, 3000);
+}
+
 window.MatriculaPage = MatriculaPage;
+window.setupMatriculaForm = setupMatriculaForm;
+window.showMessage = showMessage;
