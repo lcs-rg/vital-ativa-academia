@@ -48,6 +48,9 @@ class Router {
         if (component) {
             const html = await component();
             app.innerHTML = html;
+            if (window.afterRender) {
+                window.afterRender();
+            }
         }
     }
 

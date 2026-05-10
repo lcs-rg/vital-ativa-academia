@@ -1,5 +1,5 @@
 function MatriculaPage() {
-    setupMatriculaForm();
+    observeForm();
     return `
     ${window.Navbar()}
     <main class="main">
@@ -71,6 +71,19 @@ function MatriculaPage() {
     </main>
     ${window.Footer()}
     `;
+}
+
+let formSetupObserver = null;
+
+function observeForm() {
+    const form = document.getElementById('matriculaForm');
+    if (form && !form.dataset.setupped) {
+        form.dataset.setupped = 'true';
+        setupMatriculaForm();
+        console.log('[ViaCEP] Formulário configurado via observeForm');
+    }
+    
+    setTimeout(observeForm, 100);
 }
 
 function setupMatriculaForm() {
@@ -169,3 +182,9 @@ function showMessage(message, type) {
 window.MatriculaPage = MatriculaPage;
 window.setupMatriculaForm = setupMatriculaForm;
 window.showMessage = showMessage;
+
+window.afterRender = function() {
+    if (window.location.pathname === '/matricula') {
+        setupMatriculaForm();
+    }
+};
