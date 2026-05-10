@@ -57,32 +57,55 @@ function setupMatriculaForm() {
     const cepInput = document.getElementById('cep');
     const loading = document.getElementById('cepLoading');
 
-    const buscarCep = async () => {
-        const cep = cepInput.value.replace(/\D/g, '');
-        if (cep.length !== 8) return;
+    let isSearchingCep = false;
 
-        loading.style.display = 'inline-block';
-        
-        try {
-            const data = await window.viacep.buscarCep(cep);
-            document.getElementById('rua').value = data.logradouro || '';
-            document.getElementById('bairro').value = data.bairro || '';
-            document.getElementById('cidade').value = data.localidade || '';
-            document.getElementById('estado').value = data.uf || '';
-        } catch (error) {
-            showMessage('CEP não encontrado', 'error');
-        } finally {
-            loading.style.display = 'none';
+    cepInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            console.log('[ViaCEP] ENTER detectado - CEP digitado:', cepInput.value);
+            cepInput.blur();
         }
-    };
+    });
 
     cepInput.addEventListener('input', () => {
-        if (cepInput.value.length === 8) {
+        const digits = cepInput.value.replace(/\D/g, '');
+        if (digits.length === 8 && !isSearchingCep) {
             cepInput.blur();
         }
     });
     
-    cepInput.addEventListener('blur', buscarCep);
+    cepInput.addEventListener('blur', () => {
+        const cep = cepInput.value.replace(/\D/g, '');
+        if (cep.length === 8 && !isSearchingCep) {
+            buscarCep();
+        }
+    });
+
+    const buscarCep = async () => {
+        const cep = cepInput.value.replace(/\D/g, '');
+        if (cep.length !== 8) return;
+
+        isSearchingCep = true;
+        console.log('[ViaCEP] Iniciando busca - CEP:', cep);
+        loading.style.display = 'inline-block';
+        
+        try {
+            const data = await window.viacep.buscarCep(cep);
+            console.log('[ViaCEP] Resposta da API:', data);
+            console.log('[ViaCEP] Preenchendo campos...');
+            document.getElementById('rua').value = data.logradouro || '';
+            document.getElementById('bairro').value = data.bairro || '';
+            document.getElementById('cidade').value = data.localidade || '';
+            document.getElementById('estado').value = data.uf || '';
+            console.log('[ViaCEP] Campos preenchidos com sucesso');
+        } catch (error) {
+            console.error('[ViaCEP] Erro:', error.message);
+            showMessage(error.message, 'error');
+        } finally {
+            loading.style.display = 'none';
+            isSearchingCep = false;
+        }
+    };
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();

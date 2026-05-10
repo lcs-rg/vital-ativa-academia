@@ -4,6 +4,14 @@ class ViaCepService {
     async buscarCep(cep) {
         const cleanCep = cep.replace(/\D/g, '');
         
+        if (cleanCep.length === 0) {
+            throw new Error('CEP não informado');
+        }
+        
+        if (cleanCep.length < 8) {
+            throw new Error('CEP incompleto');
+        }
+        
         if (cleanCep.length !== 8) {
             throw new Error('CEP inválido');
         }
