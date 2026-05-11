@@ -2,6 +2,7 @@
     loadScripts([
         'src/services/api.js',
         'src/services/viacep.js',
+        'src/services/matriculaService.js',
         'src/router/router.js',
         'src/components/Navbar.js',
         'src/components/Footer.js',

@@ -12,21 +12,24 @@ function MatriculaPage() {
 
         <section class="section">
             <div class="container">
-                <form class="form matri-form" id="matriculaForm">
+                <form class="form matri-form" id="matriculaForm" novalidate>
                     <div class="form-section">
                         <h3 class="form-section-title">Dados Pessoais</h3>
                         <div class="form-grid">
                             <div class="form-group full-width">
                                 <label class="form-label" for="nome">Nome Completo *</label>
                                 <input type="text" id="nome" name="nome" class="form-input" required>
+                                <span class="form-error" id="nomeError"></span>
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="email">Email *</label>
                                 <input type="email" id="email" name="email" class="form-input" required>
+                                <span class="form-error" id="emailError"></span>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" for="telefone">Telefone</label>
-                                <input type="tel" id="telefone" name="telefone" class="form-input">
+                                <label class="form-label" for="telefone">Telefone *</label>
+                                <input type="tel" id="telefone" name="telefone" class="form-input" placeholder="11999999999" required>
+                                <span class="form-error" id="telefoneError"></span>
                             </div>
                         </div>
                     </div>
@@ -35,15 +38,16 @@ function MatriculaPage() {
                         <h3 class="form-section-title">Endereço</h3>
                         <div class="form-grid">
                             <div class="form-group">
-                                <label class="form-label" for="cep">CEP *</label>
+                                <label class="form-label" for="cep">CEP</label>
                                 <div class="input-with-loading">
-                                    <input type="text" id="cep" name="cep" class="form-input" maxlength="9" required>
+                                    <input type="text" id="cep" name="cep" class="form-input" maxlength="9" placeholder="12345678">
                                     <span class="loading-spinner" id="cepLoading" style="display: none;"></span>
                                 </div>
+                                <span class="form-error" id="cepError"></span>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" for="rua">Rua</label>
-                                <input type="text" id="rua" name="rua" class="form-input">
+                                <label class="form-label" for="logradouro">Rua</label>
+                                <input type="text" id="logradouro" name="logradouro" class="form-input">
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="bairro">Bairro</label>
@@ -60,8 +64,32 @@ function MatriculaPage() {
                         </div>
                     </div>
 
+                    <div class="form-section">
+                        <h3 class="form-section-title">Plano e Objetivo</h3>
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label class="form-label" for="plano_interesse">Plano de Interesse *</label>
+                                <select id="plano_interesse" name="plano_interesse" class="form-input" required>
+                                    <option value="">Selecione um plano</option>
+                                    <option value="Mensal">Mensal</option>
+                                    <option value="Trimestral">Trimestral</option>
+                                    <option value="Semestral">Semestral</option>
+                                    <option value="Anual">Anual</option>
+                                </select>
+                                <span class="form-error" id="planoError"></span>
+                            </div>
+                            <div class="form-group full-width">
+                                <label class="form-label" for="objetivo">Objetivo</label>
+                                <textarea id="objetivo" name="objetivo" class="form-input" rows="3" placeholder="Qual seu objetivo com a academia?"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-actions">
-                        <button type="submit" class="btn btn-primary btn-large">Enviar Solicitação</button>
+                        <button type="submit" class="btn btn-primary btn-large" id="submitBtn">
+                            <span class="btn-text">Enviar Solicitação</span>
+                            <span class="btn-loading" style="display: none;">Enviando...</span>
+                        </button>
                     </div>
 
                     <div class="form-message" id="formMessage"></div>
@@ -80,7 +108,6 @@ function observeForm() {
     if (form && !form.dataset.setupped) {
         form.dataset.setupped = 'true';
         setupMatriculaForm();
-        console.log('[ViaCEP] Formulário configurado via observeForm');
     }
     
     setTimeout(observeForm, 100);
@@ -99,7 +126,6 @@ function setupMatriculaForm() {
     cepInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            console.log('[ViaCEP] ENTER detectado - CEP:', e.target.value);
             cepInput.blur();
         }
     });
@@ -124,19 +150,15 @@ function setupMatriculaForm() {
         const cep = cepInput.value.replace(/\D/g, '');
         if (cep.length !== 8) return;
 
-        console.log('[ViaCEP] Iniciando busca - CEP:', cep);
         loading.style.display = 'inline-block';
 
         try {
             const data = await window.viacep.buscarCep(cep);
-            console.log('[ViaCEP] Resposta:', data);
-            document.getElementById('rua').value = data.logradouro || '';
+            document.getElementById('logradouro').value = data.logradouro || '';
             document.getElementById('bairro').value = data.bairro || '';
             document.getElementById('cidade').value = data.localidade || '';
             document.getElementById('estado').value = data.uf || '';
-            console.log('[ViaCEP] Campos preenchidos');
         } catch (error) {
-            console.error('[ViaCEP] Erro:', error.message);
             showMessage(error.message, 'error');
         } finally {
             loading.style.display = 'none';
@@ -144,29 +166,78 @@ function setupMatriculaForm() {
         }
     };
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = submitBtn.querySelector('.btn-text');
+        const btnLoading = submitBtn.querySelector('.btn-loading');
+        
+        clearErrors();
 
         const formData = {
             nome: document.getElementById('nome').value,
             email: document.getElementById('email').value,
             telefone: document.getElementById('telefone').value,
             cep: document.getElementById('cep').value,
-            rua: document.getElementById('rua').value,
+            logradouro: document.getElementById('logradouro').value,
             bairro: document.getElementById('bairro').value,
             cidade: document.getElementById('cidade').value,
-            estado: document.getElementById('estado').value
+            estado: document.getElementById('estado').value,
+            plano_interesse: document.getElementById('plano_interesse').value,
+            objetivo: document.getElementById('objetivo').value
         };
 
-        window.api.post('/alunos', formData)
-            .then(() => {
-                showMessage('Matrícula solicitada com sucesso!', 'success');
-                form.reset();
-            })
-            .catch((error) => {
-                showMessage(error.message || 'Erro ao enviar matrícula', 'error');
-            });
+        const validationErrors = window.matriculaService.validate(formData);
+        if (validationErrors.length > 0) {
+            showValidationErrors(validationErrors);
+            return;
+        }
+
+        submitBtn.disabled = true;
+        btnText.style.display = 'none';
+        btnLoading.style.display = 'inline';
+
+        try {
+            await window.matriculaService.create(formData);
+            showMessage('Solicitação enviada com sucesso! Em breve entraremos em contato.', 'success');
+            form.reset();
+        } catch (error) {
+            showMessage(error.message || 'Erro ao enviar solicitação. Tente novamente.', 'error');
+        } finally {
+            submitBtn.disabled = false;
+            btnText.style.display = 'inline';
+            btnLoading.style.display = 'none';
+        }
     });
+}
+
+function showValidationErrors(errors) {
+    errors.forEach(error => {
+        if (error.includes('Nome')) {
+            showFieldError('nomeError', error);
+        } else if (error.includes('Email')) {
+            showFieldError('emailError', error);
+        } else if (error.includes('Telefone')) {
+            showFieldError('telefoneError', error);
+        } else if (error.includes('CEP')) {
+            showFieldError('cepError', error);
+        } else if (error.includes('Plano')) {
+            showFieldError('planoError', error);
+        }
+    });
+}
+
+function showFieldError(elementId, message) {
+    const el = document.getElementById(elementId);
+    if (el) {
+        el.textContent = message;
+    }
+}
+
+function clearErrors() {
+    const errorElements = document.querySelectorAll('.form-error');
+    errorElements.forEach(el => el.textContent = '');
 }
 
 function showMessage(message, type) {
@@ -176,7 +247,7 @@ function showMessage(message, type) {
     msgEl.className = `form-message ${type}`;
     setTimeout(() => {
         msgEl.className = 'form-message';
-    }, 3000);
+    }, 5000);
 }
 
 window.MatriculaPage = MatriculaPage;
