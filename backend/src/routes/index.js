@@ -14,6 +14,7 @@ const treinoRoutes = require('../modules/treino/routes');
 const alunoAulaRoutes = require('../modules/alunoAula/routes');
 const treinoExercicioRoutes = require('../modules/treinoExercicio/routes');
 const planoModalidadeRoutes = require('../modules/planoModalidade/routes');
+const solicitacaoMatriculaRoutes = require('../modules/solicitacaoMatricula/routes');
 
 router.use('/alunos', alunoRoutes);
 router.use('/planos', planoRoutes);
@@ -28,5 +29,6 @@ router.use('/treinos', treinoRoutes);
 router.use('/aluno-aula', alunoAulaRoutes);
 router.use('/treino-exercicio', treinoExercicioRoutes);
 router.use('/plano-modalidade', planoModalidadeRoutes);
+router.use('/solicitacoes-matricula', solicitacaoMatriculaRoutes);
 
 module.exports = router;

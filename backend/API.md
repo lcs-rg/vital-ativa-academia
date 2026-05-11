@@ -364,6 +364,55 @@ curl -X DELETE http://localhost:10000/api/plano-modalidade \
 
 ---
 
+### 14. Solicitações de Matrícula
+
+Leads capturados através do formulário público do site.
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/solicitacoes-matricula` | Listar todas as solicitações |
+| GET | `/solicitacoes-matricula/:id` | Buscar solicitação por ID |
+| POST | `/solicitacoes-matricula` | Criar nova solicitação |
+
+**Campos:**
+| Campo | Tipo | Obrigatório |
+|-------|------|-------------|
+| nome | string | Sim |
+| email | string | Sim |
+| telefone | string | Sim |
+| cep | string | Não |
+| logradouro | string | Não |
+| bairro | string | Não |
+| cidade | string | Não |
+| estado | string | Não |
+| plano_interesse | string | Sim |
+| objetivo | string | Não |
+
+> **Status padrão:** `pendente`
+
+**Exemplo - Criar:**
+```bash
+curl -X POST http://localhost:10000/api/solicitacoes-matricula \
+  -H "Content-Type: application/json" \
+  -d '{"nome":"João Silva","email":"joao@email.com","telefone":"11999999999","plano_interesse":"Mensal","objetivo":"Perder peso"}'
+```
+
+**Response (201):**
+```json
+{
+  "id": 1,
+  "nome": "João Silva",
+  "email": "joao@email.com",
+  "telefone": "11999999999",
+  "plano_interesse": "Mensal",
+  "objetivo": "Perder peso",
+  "status": "pendente",
+  "created_at": "2026-05-11T10:00:00.000Z"
+}
+```
+
+---
+
 ## Códigos de Status
 
 | Código | Descrição |
