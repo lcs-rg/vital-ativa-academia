@@ -1,8 +1,8 @@
 function getModalidadeIcon(nome) {
     const nomeLower = (nome || '').toLowerCase();
-    if (nomeLower.includes('musculação') || nomeLower.includes('musculacao') || nomeLower.includes('weight')) return 'ph-dumbbell';
+    if (nomeLower.includes('musculação') || nomeLower.includes('musculacao') || nomeLower.includes('weight')) return 'ph-barbell';
     if (nomeLower.includes('yoga') || nomeLower.includes('ioga')) return 'ph-sunglasses';
-    if (nomeLower.includes('pilates')) return 'ph-spa';
+    if (nomeLower.includes('pilates')) return 'ph-flower';
     if (nomeLower.includes('spinning') || nomeLower.includes('ciclo')) return 'ph-bicycle';
     if (nomeLower.includes('cross') || nomeLower.includes('training')) return 'ph-barbell';
     if (nomeLower.includes('crossfit')) return 'ph-barbell';
