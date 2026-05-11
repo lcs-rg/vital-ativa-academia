@@ -4,7 +4,7 @@ function getModalidadeIcon(nome) {
     if (nomeLower.includes('yoga') || nomeLower.includes('ioga')) return 'ph-sunglasses';
     if (nomeLower.includes('pilates')) return 'ph-flower';
     if (nomeLower.includes('spinning') || nomeLower.includes('ciclo')) return 'ph-bicycle';
-    if (nomeLower.includes('cross') || nomeLower.includes('training')) return 'ph-barbell';
+    if (nomeLower.includes('cross') || nomeLower.includes('training')) return 'ph-lightning';
     if (nomeLower.includes('crossfit')) return 'ph-barbell';
     if (nomeLower.includes('boxe') || nomeLower.includes('boxing')) return 'ph-glove';
     if (nomeLower.includes('natação') || nomeLower.includes('natacao') || nomeLower.includes('swim')) return 'ph-swimming';
