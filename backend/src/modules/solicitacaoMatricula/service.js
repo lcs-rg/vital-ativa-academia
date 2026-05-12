@@ -22,16 +22,33 @@ class SolicitacaoMatriculaService {
     const required = ['nome', 'email', 'telefone', 'plano_interesse']; 
     const missing = required.filter(f => !data[f] || (typeof data[f] === 'string' && !data[f].trim())); 
     if (missing.length > 0) throw new Error(`Campos obrigatórios: ${missing.join(', ')}`); 
-    if (data.email && !this.isValidEmail(data.email)) throw new Error('Email inválido'); 
+    if (data.email && !this.isValidEmail(data.email)) throw new Error('Email inválido');
+    
+    // Validar CEP: se informado, deve ter exatamente 8 dígitos
+    if (data.cep) {
+      const cepDigits = data.cep.replace(/\D/g, '');
+      if (cepDigits.length > 0 && cepDigits.length !== 8) {
+        throw new Error('CEP deve ter exatamente 8 dígitos');
+      }
+    }
   }
   sanitize(data) { 
+    // Sanitizar CEP: remover tudo que não for número
+    const cepSanitized = data.cep ? data.cep.replace(/\D/g, '') : '';
+    
+    console.log('=== CEP SANITIZATION ===');
+    console.log('CEP original:', data.cep);
+    console.log('CEP sanitizado:', cepSanitized);
+    console.log('CEP length:', cepSanitized.length);
+    console.log('=======================');
+    
     // Filtrar apenas campos com valores não-nulos para evitar problemas com null no Supabase
     const result = {};
     
     if (data.nome?.trim()) result.nome = data.nome.trim();
     if (data.email?.trim()) result.email = data.email.trim().toLowerCase();
     if (data.telefone?.trim()) result.telefone = data.telefone.trim();
-    if (data.cep?.trim()) result.cep = data.cep.trim();
+    if (cepSanitized) result.cep = cepSanitized;
     if (data.logradouro?.trim()) result.logradouro = data.logradouro.trim();
     if (data.bairro?.trim()) result.bairro = data.bairro.trim();
     if (data.cidade?.trim()) result.cidade = data.cidade.trim();

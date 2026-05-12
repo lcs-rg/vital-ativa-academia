@@ -179,7 +179,7 @@ function setupMatriculaForm() {
             nome: document.getElementById('nome').value,
             email: document.getElementById('email').value,
             telefone: document.getElementById('telefone').value,
-            cep: document.getElementById('cep').value,
+            cep: document.getElementById('cep').value.replace(/\D/g, ''),
             logradouro: document.getElementById('logradouro').value,
             bairro: document.getElementById('bairro').value,
             cidade: document.getElementById('cidade').value,
@@ -187,6 +187,9 @@ function setupMatriculaForm() {
             plano_interesse: document.getElementById('plano_interesse').value,
             objetivo: document.getElementById('objetivo').value
         };
+        
+        console.log('CEP original:', document.getElementById('cep').value);
+        console.log('CEP sanitizado:', formData.cep);
 
         const validationErrors = window.matriculaService.validate(formData);
         if (validationErrors.length > 0) {

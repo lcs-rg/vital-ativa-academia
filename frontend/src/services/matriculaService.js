@@ -23,8 +23,11 @@ class MatriculaService {
             errors.push('Telefone inválido');
         }
 
-        if (data.cep && !this.isValidCep(data.cep)) {
-            errors.push('CEP inválido');
+        if (data.cep) {
+            const cepDigits = data.cep.replace(/\D/g, '');
+            if (cepDigits.length > 0 && cepDigits.length !== 8) {
+                errors.push('CEP deve ter 8 dígitos');
+            }
         }
 
         if (!data.plano_interesse || !data.plano_interesse.trim()) {
@@ -49,18 +52,27 @@ class MatriculaService {
     }
 
     sanitize(data) {
-        return {
-            nome: data.nome?.trim() || null,
-            email: data.email?.trim().toLowerCase() || null,
-            telefone: data.telefone?.trim() || null,
-            cep: data.cep?.trim() || null,
-            logradouro: data.logradouro?.trim() || null,
-            bairro: data.bairro?.trim() || null,
-            cidade: data.cidade?.trim() || null,
-            estado: data.estado?.trim() || null,
-            plano_interesse: data.plano_interesse?.trim() || null,
-            objetivo: data.objetivo?.trim() || null
-        };
+        // Sanitizar CEP: remover tudo que não for número
+        const cepSanitized = data.cep ? data.cep.replace(/\D/g, '') : '';
+        
+        console.log('MatriculaService - CEP original:', data.cep);
+        console.log('MatriculaService - CEP sanitizado:', cepSanitized);
+        
+        // Filtrar apenas campos com valores não-nulos
+        const result = {};
+        
+        if (data.nome?.trim()) result.nome = data.nome.trim();
+        if (data.email?.trim()) result.email = data.email.trim().toLowerCase();
+        if (data.telefone?.trim()) result.telefone = data.telefone.trim();
+        if (cepSanitized) result.cep = cepSanitized;
+        if (data.logradouro?.trim()) result.logradouro = data.logradouro.trim();
+        if (data.bairro?.trim()) result.bairro = data.bairro.trim();
+        if (data.cidade?.trim()) result.cidade = data.cidade.trim();
+        if (data.estado?.trim()) result.estado = data.estado.trim();
+        if (data.plano_interesse?.trim()) result.plano_interesse = data.plano_interesse.trim();
+        if (data.objetivo?.trim()) result.objetivo = data.objetivo.trim();
+        
+        return result;
     }
 
     async create(data) {
