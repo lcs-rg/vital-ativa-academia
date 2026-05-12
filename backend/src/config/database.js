@@ -4,37 +4,30 @@ const { createClient } = require('@supabase/supabase-js');
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const anonKey = process.env.SUPABASE_ANON_KEY;
 
-// Diagnóstico detalhado
-console.log('=== SUPABASE DIAGNOSTIC ===');
-console.log('SUPABASE_URL:', supabaseUrl ? 'OK' : 'MISSING');
-console.log('SUPABASE_SERVICE_ROLE_KEY:', serviceKey ? `OK (${serviceKey.substring(0, 15)}...)` : 'MISSING');
-console.log('SUPABASE_ANON_KEY:', anonKey ? `OK (${anonKey.substring(0, 15)}...)` : 'MISSING');
-
-// Decidir qual chave usar
-let supabaseKey;
-if (serviceKey) {
-  supabaseKey = serviceKey;
-  console.log('>>> USANDO: SERVICE_ROLE_KEY (bypassa RLS)');
-} else if (anonKey) {
-  supabaseKey = anonKey;
-  console.log('>>> USANDO: ANON_KEY (sujeito a RLS)');
-} else {
-  supabaseKey = 'sb_publishable_92hcD-h8_pHpByu7v-3yCg_6d4lsnNE';
-  console.log('>>> USANDO: FALLBACK HARDCODED');
-}
-console.log('===========================');
+// FORÇAR uso de SERVICE_ROLE_KEY (sem fallback para ANON_KEY)
+console.log('=== SUPABASE CONFIG ===');
+console.log('URL:', supabaseUrl ? 'OK' : 'ERRO');
+console.log('SERVICE_ROLE_KEY:', serviceKey ? `OK (${serviceKey.substring(0, 15)}...)` : 'ERRO - NAO CONFIGURADA');
+console.log('========================');
 
 if (!supabaseUrl) {
-  console.error('ERRO FATAL: SUPABASE_URL não definido!');
+  console.error('ERRO: SUPABASE_URL não definido!');
+  process.exit(1);
 }
 
-const supabase = createClient(supabaseUrl, supabaseKey, {
+if (!serviceKey) {
+  console.error('ERRO: SUPABASE_SERVICE_ROLE_KEY não definido!');
+  console.error('Configure a variável no ambiente de produção!');
+  process.exit(1);
+}
+
+const supabase = createClient(supabaseUrl, serviceKey, {
   auth: {
     autoRefreshToken: false,
     persistSession: false
   }
 });
 
+console.log('>>> Supabase client inicializado com SERVICE_ROLE_KEY');
 module.exports = supabase;
