@@ -170,6 +170,14 @@ function setupMatriculaForm() {
         e.preventDefault();
 
         const submitBtn = document.getElementById('submitBtn');
+        
+        // Prevenir double submit
+        if (submitBtn.dataset.submitting === 'true') {
+            console.log('Double submit prevented');
+            return;
+        }
+        submitBtn.dataset.submitting = 'true';
+        
         const btnText = submitBtn.querySelector('.btn-text');
         const btnLoading = submitBtn.querySelector('.btn-loading');
         
@@ -209,6 +217,7 @@ function setupMatriculaForm() {
             showMessage(error.message || 'Erro ao enviar solicitação. Tente novamente.', 'error');
         } finally {
             submitBtn.disabled = false;
+            submitBtn.dataset.submitting = 'false';
             btnText.style.display = 'inline';
             btnLoading.style.display = 'none';
         }
