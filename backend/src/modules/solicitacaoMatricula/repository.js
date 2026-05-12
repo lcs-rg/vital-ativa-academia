@@ -21,24 +21,33 @@ class SolicitacaoMatriculaRepository {
   async create(data) { 
     console.log('Repository create - data:', JSON.stringify(data));
     
-    // Log detalhado de cada campo
-    console.log('=== Verificando tamanhos dos campos ===');
-    Object.entries(data).forEach(([key, value]) => {
-      if (typeof value === 'string') {
-        console.log(`${key}: "${value}" (${value.length} chars)`);
-      } else {
-        console.log(`${key}: ${value}`);
-      }
+    // Verificar campos do objeto
+    console.log('=== Campos do objeto ===');
+    Object.keys(data).forEach(key => {
+      console.log(`- ${key}`);
     });
     
-    const { data: result, error } = await supabase.from('solicitacao_matricula').insert(data).select(); 
-    console.log('Repository create result:', result, 'error:', error);
+    console.log('=== Chamando Supabase insert ===');
+    console.log('Tabela: solicitacao_matricula');
+    console.log('Dados:', data);
+    
+    const { data: result, error } = await supabase
+      .from('solicitacao_matricula')
+      .insert([data])
+      .select();
+      
+    console.log('Supabase result:', result);
+    console.log('Supabase error:', error);
+    
     if (error) {
-      console.error('Repository create error:', error);
+      console.error('Error details:', JSON.stringify(error, null, 2));
       console.error('Error code:', error.code);
       console.error('Error message:', error.message);
+      console.error('Error hint:', error.hint);
+      console.error('Error details:', error.details);
       throw new Error(error.message || 'Erro ao inserir no banco');
     }
+    
     if (!result || result.length === 0) {
       throw new Error('Falha ao criar solicitação - dados não retornados');
     }
