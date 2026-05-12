@@ -25,20 +25,22 @@ class SolicitacaoMatriculaService {
     if (data.email && !this.isValidEmail(data.email)) throw new Error('Email inválido'); 
   }
   sanitize(data) { 
-    const sanitized = { 
-      nome: data.nome?.trim() || null, 
-      email: data.email?.trim().toLowerCase() || null, 
-      telefone: data.telefone?.trim() || null, 
-      cep: data.cep?.trim() || null, 
-      logradouro: data.logradouro?.trim() || null, 
-      bairro: data.bairro?.trim() || null, 
-      cidade: data.cidade?.trim() || null, 
-      estado: data.estado?.trim() || null, 
-      plano_interesse: data.plano_interesse?.trim() || null, 
-      objetivo: data.objetivo?.trim() || null
-    };
-    console.log('Service sanitize result:', JSON.stringify(sanitized));
-    return sanitized;
+    // Filtrar apenas campos com valores não-nulos para evitar problemas com null no Supabase
+    const result = {};
+    
+    if (data.nome?.trim()) result.nome = data.nome.trim();
+    if (data.email?.trim()) result.email = data.email.trim().toLowerCase();
+    if (data.telefone?.trim()) result.telefone = data.telefone.trim();
+    if (data.cep?.trim()) result.cep = data.cep.trim();
+    if (data.logradouro?.trim()) result.logradouro = data.logradouro.trim();
+    if (data.bairro?.trim()) result.bairro = data.bairro.trim();
+    if (data.cidade?.trim()) result.cidade = data.cidade.trim();
+    if (data.estado?.trim()) result.estado = data.estado.trim();
+    if (data.plano_interesse?.trim()) result.plano_interesse = data.plano_interesse.trim();
+    if (data.objetivo?.trim()) result.objetivo = data.objetivo.trim();
+    
+    console.log('Service sanitize result:', JSON.stringify(result));
+    return result;
   }
   isValidEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
 }
