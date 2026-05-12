@@ -35,8 +35,7 @@ class SolicitacaoMatriculaService {
       cidade: data.cidade?.trim() || null, 
       estado: data.estado?.trim() || null, 
       plano_interesse: data.plano_interesse?.trim() || null, 
-      objetivo: data.objetivo?.trim() || null, 
-      status: 'pendente' 
+      objetivo: data.objetivo?.trim() || null
     };
     console.log('Service sanitize result:', JSON.stringify(sanitized));
     return sanitized;
