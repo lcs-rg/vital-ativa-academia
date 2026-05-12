@@ -50,16 +50,16 @@ class MatriculaService {
 
     sanitize(data) {
         return {
-            nome: data.nome?.trim() || '',
-            email: data.email?.trim().toLowerCase() || '',
-            telefone: data.telefone?.trim() || '',
-            cep: data.cep?.trim() || '',
-            logradouro: data.logradouro?.trim() || '',
-            bairro: data.bairro?.trim() || '',
-            cidade: data.cidade?.trim() || '',
-            estado: data.estado?.trim() || '',
-            plano_interesse: data.plano_interesse?.trim() || '',
-            objetivo: data.objetivo?.trim() || ''
+            nome: data.nome?.trim() || null,
+            email: data.email?.trim().toLowerCase() || null,
+            telefone: data.telefone?.trim() || null,
+            cep: data.cep?.trim() || null,
+            logradouro: data.logradouro?.trim() || null,
+            bairro: data.bairro?.trim() || null,
+            cidade: data.cidade?.trim() || null,
+            estado: data.estado?.trim() || null,
+            plano_interesse: data.plano_interesse?.trim() || null,
+            objetivo: data.objetivo?.trim() || null
         };
     }
 
